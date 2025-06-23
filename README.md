@@ -2,7 +2,7 @@
 
 **Motivation**
 
-Partial algebra methods are partial implementations of non-linear algebraic operations for n-dimensional arrays. Their use cases include matrix compression, parallelization of matrix operations, approximate eigensolving, exact symbolic matrix inversion, generalized rectangular matrix inversion, definition of properties of zero-base polynomials (extending on Narayana's "kha-guna" from jstor.org/stable/224869), isomorphism between pseudo-unitary groups. Potential impact areas include Pseudo-Unitary Physics, Spectral Theory (Linear Algebra), Data Analytics, Machine Learning.
+Partial algebra methods are partial implementations of non-linear algebraic operations for n-dimensional arrays. Their use cases include matrix compression, parallelization of matrix operations, approximate eigensolving, exact symbolic matrix inversion, generalized rectangular matrix inversion, definition of properties of zero-base polynomials (extending on Narayana's "kha-guna" from https://www.jstor.org/stable/224869), isomorphism between pseudo-unitary groups. Potential impact areas include Pseudo-Unitary Physics, Spectral Theory (Linear Algebra), Data Analytics, Machine Learning.
 
 ---
 **About**
