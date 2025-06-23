@@ -35,4 +35,4 @@ Partial inversion on Wikipedia: https://en.wikipedia.org/wiki/Partial_inverse_of
 
 Cloning and deleting in a pseudo-unitary system: https://link.springer.com/article/10.1007/s11467-021-1063-z
 
-Block diagonalization: https://en.wikipedia.org/wiki/Block_matrix
+Properties of block matrices: https://en.wikipedia.org/wiki/Block_matrix
