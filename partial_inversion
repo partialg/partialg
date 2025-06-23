@@ -99,9 +99,10 @@ Xkh_inv_rep
 import numpy as np
 
 def pinv(M, *args):
-    ''' 
-    M: numpy array of floats or sympy symbols.
+    ''' Partial inversion algorithm
+    M: numpy ndarray of floats or of sympy symbols.
     args: tuple of matrix indices. E.g.: (0,0), (1,2).
+    # COMMENT: For ndarrays with more than 2 axes, only the first two are considered.
     '''
     Z = M.copy()
     for idx in args:
