@@ -25,3 +25,13 @@ This package includes a partial inversion routine and a Sridhara-based block-dia
 2. Open a python (supported version: 3.12.0) environment.
 3. Import the functions using **from partial_algebra.inversion import partial_inversion** and **from partial_algebra.eigensolvers import sbd_eigvals**.
 4. See the usage examples in the .py files for guidance.
+
+---
+**Related pages from the web**
+Partial inversion on MathOverflow: https://mathoverflow.net/questions/186026/partial-inverse-of-a-matrix-or-does-it-have-its-own-name/477652#477652
+
+Partial inversion on Wikipedia: https://en.wikipedia.org/wiki/Partial_inverse_of_a_matrix
+
+Cloning and deleting in a pseudo-unitary system: https://link.springer.com/article/10.1007/s11467-021-1063-z
+
+Block diagonalization: https://en.wikipedia.org/wiki/Block_matrix
