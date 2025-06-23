@@ -28,6 +28,7 @@ This package includes a partial inversion routine and a Sridhara-based block-dia
 
 ---
 **Related pages from the web**
+
 Partial inversion on MathOverflow: https://mathoverflow.net/questions/186026/partial-inverse-of-a-matrix-or-does-it-have-its-own-name/477652#477652
 
 Partial inversion on Wikipedia: https://en.wikipedia.org/wiki/Partial_inverse_of_a_matrix
