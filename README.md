@@ -17,7 +17,7 @@ This package includes a partial inversion routine and a Sridhara-based block-dia
 
 - For the Sridhara-based Block-Diagonalization algorithm, cite this paper:
 
-  **[Upcoming]**
+  **[Submitted. Cite this repository as a webpage or come back later to see the reference to a publication.]**
 
 ---
 **How to Use**
