@@ -1,14 +1,15 @@
 """
 Sridhara-based Block Diagonalization
 ----
-DESCRIPTION: provides block-eigensolver function for matrices, adapted from Sridhara formula for the roots of a 2nd-order polynomial for scalars.
+DESCRIPTION: provides block-eigensolver function for sparse and dense matrices, adapted from Sridhara formula for the roots of a 2nd-order polynomial for scalars.
 AUTHOR: Dennis Lima (June 2025).
-APPLICATION: fast, lossy matrix compression [lossily] preserving eigenvalues.
+PUBLISHED: July 2025
+APPLICATION: matrix compression to estimate eigenvalues faster than numpy LU eigensolver, and some Variational Quantum Eigensolvers.
 Copyright: CC BY 4.0.
 ----
 
-To import functions from this python file, download the artial_algebra folder, change your directory to the parent folder, then use:
-from partial_algebra.sbd import SBD_eigvals
+To import functions from this python file, download the partial_algebra folder, move it to your working directory, then use:
+from partial_algebra.sbd_eigensolvers import SBD_eigvals, SBD_eigbranch
 
 ----
 
@@ -60,21 +61,6 @@ Compare(sample_size=100, T0=0, N0=1)
 # Example usage 2 ==================================
 #===================================================
 
-def SBD_eigbranch(M, block_index='000'):
-    ''' SBD_eigbranch finds eigenleaf of block-eigenvalue tree.
-    block_index <int> index of block-diagonal matrix (its length is the number of compressions).
-    '''
-    if 2**(len( block_index )-1) < len(M):
-        L = [M, ]
-        for i in range( len(block_index) ):
-            L.append( SBD_eigvals(L[-1])[ int(block_index[i]) ] )    # Block-eigensolving M and selecting ith block-diagonal
-        #
-    else:
-        print(f'ABORTED: block_index is {int( len( block_index ) - np.log2(len(M)) )  } indices too large.')
-        L = None
-        #
-    return L
-
 # Quality correction factors
 T0 = 0
 N0 = 1
@@ -85,7 +71,7 @@ M = M.dot(M.conjugate().transpose() )  # Making M Hermitian
 M = M/np.trace(M)/N0 + T0*np.eye(8)    # Normalizing M
 
 # Generating branch of block-eigenvalues.
-block_eigenvalue_branch = SBD_eigbranch(M, block_index='000')
+block_eigenvalue_branch = SBD_eigbranch(M, block_index='000', )
 block_eigenvalue_branch
 
 
@@ -101,21 +87,35 @@ import scipy as sp
 from sympy import factorint #Used to count number of factors of 2
 
 import matplotlib.pyplot as plt         # For usage example only
-
+import time                             # For time measurement 
 
 
 def EYE(n, sparse=False):
     if sparse == False:
         return np.eye(n)
     else:
-        return sp.sparse.eye((n,n))
+        return sp.sparse.eye(n)
 
+def INV(a, sparse=False):
+    if sparse == False:
+        return np.linalg.inv(a)
+    else:
+        return sp.sparse.linalg.inv(a)
 
+def EIG(a, sparse=False, which='SM'):
+    ''' 
+    which <str>: SM or LM for smallest magnitude and largest magnitude.
+    '''
+    if sparse == False:
+        return np.linalg.eig(a)
+    else:
+        return sp.sparse.linalg.eigs( a, k=a.shape[0]-2 , which=which)
 
 
 def ExactSrt(a):
-    "Eigensolver way to compute matrix square roots."
-    #trc = np.trace(a)
+    """Eigensolver way to compute matrix square roots. Not available for sparse matrices.
+    Availed for comparison purpose only. Not needed in the main algorithm.
+    """
     e, v = np.linalg.eig( a )
     e    = np.array(e, dtype=complex )
     return v.dot( np.dot( np.diag( np.sqrt( e ) ), v.inv()) )
@@ -125,17 +125,22 @@ def NS_sqrt(a, max_it = 6, k_pow = 1/4, sparse=False):
     "Newton-Schulz matrix root expansion."
     A     = a.trace()**k_pow * EYE(a.shape[0], sparse=sparse)   # Initial guess
     for i in range(max_it):
-        A = 0.5*(A + a @ A.inv() )
+        A = 0.5*(A + a @ INV(A, sparse=sparse) )
     return A
 
 
 # Slice blocks of matrix =====================
-def Block(M, nrow=2, to_sparse=False):
+def Block(a, nrow=2, sparse=False):
     ''' Splits matrix M into nrow*nrow blocks. Blocks have equal size if len(M)/nrow is integer.
     #
     INPUT  <np.array> : sparse matrix not allowed.
     OUTPUT <tuple(np.array)>
     '''
+    #
+    if sparse == True:
+        M = a.toarray()
+    else:
+        M = a.copy()
     #
     rows   = np.array_split(M, indices_or_sections=nrow, axis=0 ) 
     #
@@ -145,7 +150,16 @@ def Block(M, nrow=2, to_sparse=False):
             np.array_split(row, indices_or_sections=nrow, axis=1 )
         )
     #
-    return tuple(blocks)
+    if sparse == True:
+        m = []
+        for i in range(len(blocks)):
+            row = []
+            for j in range(len(blocks[0]) ):
+                row.append( sp.sparse.csr_array( blocks[i][j] )   )
+            m.append(row)
+        return tuple(m) 
+    else:
+        return tuple(blocks)
 
 
 #==============================================
@@ -158,27 +172,54 @@ def SBD_eigvals(a, sqrt= NS_sqrt, sparse=False):
     OUTPUT
         <np.array>
     '''
-    blk       = Block(a, nrow=2)
+    blk       = Block(a, nrow=2, sparse=sparse)
     A, C      = blk[0][0], blk[0][1]
     D, B      = blk[1][0], blk[1][1]
     #
     t = A + B        # Block-trace    
     #
     try:             # Block-determinant with inverse of A
-        A_ = A.inv()
+        A_ = INV(A, sparse=sparse)
         d  = A.dot(B) - A.dot(D.dot( A_.dot(C) ))
     except:          # Without inverse of A
         print('Exception')
         d  = A.dot(B) - D.dot(C)
     #
-    term = sqrt( t.dot(t) - 4*d )
+    term = sqrt( t.dot(t) - 4*d, sparse=sparse )
     L0   = 0.5*(t - term)
     L1   = 0.5*(t + term)
     #
     return (L0, L1)
 
+
 # END OF CODE
 #==============================================
+
+def SBD_eigbranch(M, block_index='0', sparse=False, only_even=False ):
+    ''' SBD_eigbranch finds eigenleaf of block-eigenvalue tree.
+    block_index <int>: index of block-diagonal matrix (its length is the number of compressions).
+    only_even <bool>: True ensures output only has elements with 2*n compressions, where n is the list index, as required by some VQE algorithms. 
+                      False ensures output is full branch of compressed matrices.
+    '''
+    #
+    t0 = time.perf_counter()
+    
+    if 2**(len( block_index )-1) < M.shape[0]:
+        L = [M, ]
+        t = [0, ]
+        for i in range( len(block_index) ):
+            L.append( SBD_eigvals(L[-1], sparse=sparse)[ int(block_index[i]) ] )    # Block-eigensolving
+            t.append( (time.perf_counter()-t0)/60. )
+        #
+        if only_even == True:
+            L = [L[i] for i in range(0,len(L),2)]
+            t = [t[i] for i in range(0, len(t), 2)]
+    else:
+        print(f'ABORTED: block_index is {int( len( block_index ) - np.log2(len(M)) )  } indices too large.')
+        L = None
+        #
+    report = {'time':t}    # Time is in minutes
+    return L, report
 
 
 
