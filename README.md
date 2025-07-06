@@ -1,4 +1,4 @@
-# partial_algebra
+# partialg
 
 **Motivation**
 
@@ -21,7 +21,7 @@ This package includes a partial inversion routine and a Sridhara-based block-dia
 
 ---
 **How to Use**
-1. Download the partial_algebra folder, extract it and change your working directory to the parent directory of the partial_algebra folder.
+1. Download the partialg folder, extract it and change your working directory to the parent directory of the partial_algebra folder.
 2. Open a python (supported version: 3.12.0) environment.
 3. Import the functions using **from partial_algebra.inversion import partial_inversion** and **from partial_algebra.eigensolvers import sbd_eigvals**.
 4. See the usage examples in the .py files for guidance.
