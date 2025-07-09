@@ -230,9 +230,6 @@ def SBD_unitary_vector(v, normalize=False, sparse=False):
 
 
 
-# END OF CODE
-#==============================================
-
 def SBD_eigbranch(M, block_index='0', sparse=False, only_even=False ):
     ''' SBD_eigbranch finds eigenleaf of block-eigenvalue tree.
     block_index <int>: index of block-diagonal matrix (its length is the number of compressions).
@@ -261,3 +258,7 @@ def SBD_eigbranch(M, block_index='0', sparse=False, only_even=False ):
 
 
 
+
+
+# END OF CODE
+#==============================================
