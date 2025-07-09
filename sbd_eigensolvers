@@ -192,6 +192,40 @@ def SBD_eigvals(a, sqrt= NS_sqrt, sparse=False):
     return (L0, L1)
 
 
+def SBD_unitary_vector(v, normalize=False, sparse=False):
+    ''' Sridhara-based Block Diagonalization compressor for unitary vectors
+    Can be used with any vector, but will only search for eigenvector whose compressed density matrix eigenvalue (given vector v) is close to 1.
+    #
+    v <array-like>  : numpy dense 2D array or scipy sparse 2D array with shape (n,1) for any integer n>0.
+    normalize <bool>: if True, normalizes compressed vector to recover unitarity, otherwise returns raw compressed vector.
+    sparse <bool>   : if True, uses sparse methods, otherwise uses dense array methods.
+    OUTPUT
+        eigenvalue : if close to 1, compression had good quality.
+        eigenvector: array-like of shape (n/2,2) where (n,2) is the shape of the input vector v.
+    '''
+    #
+    if v.shape[0] %2 != 0:
+        raise Warning('Shape is not even. Returning None.')
+        return None
+    #
+    M   = v.dot(v.T.conjugate())
+    L1  = SBD_eigvals(M, sparse=sparse)[1]
+    #
+    if sparse == False:
+        L1 = sp.sparse.coo_array( L1 )        
+    #
+    e, v = sp.sparse.linalg.eigs( L1, k=1, sigma=1 )
+    #
+    if normalize == True:
+        v = v/np.abs( np.sqrt( v.T.conjugate().dot( v ) ) )
+    #
+    if sparse == True:
+        return e, v
+    else:
+        return e, np.array( v )
+
+
+
 # END OF CODE
 #==============================================
 
