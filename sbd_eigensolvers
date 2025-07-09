@@ -194,14 +194,18 @@ def SBD_eigvals(a, sqrt= NS_sqrt, sparse=False):
 
 def SBD_unitary_vector(v, normalize=False, sparse=False):
     ''' Sridhara-based Block Diagonalization compressor for unitary vectors
-    Can be used with any vector, but will only search for eigenvector whose compressed density matrix eigenvalue (given vector v) is close to 1.
-    #
-    v <array-like>  : numpy dense 2D array or scipy sparse 2D array with shape (n,1) for any integer n>0.
-    normalize <bool>: if True, normalizes compressed vector to recover unitarity, otherwise returns raw compressed vector.
-    sparse <bool>   : if True, uses sparse methods, otherwise uses dense array methods.
+    INPUTS
+        v <array-like>  : numpy dense 2D array or scipy sparse 2D array with shape (n,1) for any integer n>0.
+        normalize <bool>: if True, normalizes compressed vector to recover unitarity, otherwise returns raw compressed vector.
+        sparse <bool>   : if True, uses sparse methods, otherwise uses dense array methods.
     OUTPUT
         eigenvalue : if close to 1, compression had good quality.
         eigenvector: array-like of shape (n/2,2) where (n,2) is the shape of the input vector v.
+    NOTES
+        Can be used with any vector, but will only search for eigenvector whose compressed density matrix eigenvalue (given vector v) is close to 1.
+        Can only compress vector with even dimension.
+        Intended for use with unitary vectors, especially for state compression in quantum computing for quantum chemistry.
+        May fail due to poor invertibility of blocks of density matrix.
     '''
     #
     if v.shape[0] %2 != 0:
