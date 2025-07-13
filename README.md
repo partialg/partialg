@@ -1,4 +1,4 @@
-# partialg v0.1
+# partialg (v0.1)
 
 **Motivation**
 
