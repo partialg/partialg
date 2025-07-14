@@ -228,9 +228,35 @@ def SBD_vector(v, normalize=False, sparse=False):
         v = v/np.abs( np.sqrt( v.T.conjugate().dot( v ) ) )
     #
     if sparse == True:
-        return e, v
+        return e, sp.sparse.csc_array(v)
     else:
         return e, np.array( v )
+
+def SBD_vectorbranch(v, block_index='0', sparse=False, only_even=False, normalize=False ):
+    ''' SBD_vectoreigbranch applies SBD_vector successively.
+    block_index <int>: index of block-diagonal matrix (its length is the number of compressions).
+    only_even <bool>: True ensures output only has elements with 2*n compressions, where n is the list index, as required by some VQE algorithms. 
+                      False ensures output is full branch of compressed matrices.
+    '''
+    #
+    t0 = time.perf_counter()
+    #
+    if 2**(len( block_index )-1) < v.shape[0]:
+        L = [v, ]
+        t = [0, ]
+        for i in range( len(block_index) ):
+            L.append( SBD_vector(L[-1], sparse=sparse, normalize=normalize)[ 1 ] )    # Block-eigensolving
+            t.append( (time.perf_counter()-t0)/60. )
+        #
+        if only_even == True:
+            L = [L[i] for i in range(0,len(L),2)]
+            t = [t[i] for i in range(0, len(t), 2)]
+    else:
+        print(f'ABORTED: block_index is {int( len( block_index ) - np.log2(v.shape[0]) )  } indices too large.')
+        L = None
+        #
+    report = {'time':t}    # Time is in minutes
+    return L, report
 
 
 
