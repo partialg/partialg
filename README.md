@@ -43,8 +43,8 @@ Cloning and deleting in a pseudo-unitary system: https://link.springer.com/artic
 Properties of block matrices: https://en.wikipedia.org/wiki/Block_matrix
 
 ---
-DISCLAIMERS
+**DISCLAIMERS**
 
-This repository is updated regularly.
+This repository is updated for bug fixes, examples and descriptions on a monthly basis.
 
-If something doesn't look right,
+
