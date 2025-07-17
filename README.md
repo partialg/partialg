@@ -26,9 +26,9 @@ Requirements for examples: matplotlib, pennylane, jax, jaxlib, optax
 
 ---
 **How to Use**
-1. Download the partialg folder, extract it and change your working directory to the parent directory of the partial_algebra folder.
-2. Open a python (supported version: 3.12.0) environment.
-3. Import the functions using **from partial_algebra.inversion import partial_inversion** and **from partial_algebra.eigensolvers import sbd_eigvals**.
+1. Download the partialg folder, extract it and change your working directory to the parent directory of the partialg folder.
+2. Open a python environment (supported version: 3.12.0).
+3. Import the functions using **from partialg.partial_inversion import pinv** and **from partialg.eigensolvers import sbd_eigvals**.
 4. See the usage examples in the .py files for guidance.
 
 ---
