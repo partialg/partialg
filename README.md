@@ -7,7 +7,7 @@ Partial algebra methods are partial implementations of linear algebraic operatio
 ---
 **About**
 
-This package includes a partial inversion routine and a Sridhara-based block-diagonalization routine in python (version 3.12.0).
+This package provides a partial inversion function and a Sridhara-based block-diagonalization function in python (version 3.12.0).
 
 Requirements: numpy, scipy, sympy.
 Requirements for examples: matplotlib, pennylane, jax, jaxlib, optax
