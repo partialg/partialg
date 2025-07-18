@@ -1,11 +1,13 @@
 """
 Sridhara-based Block Diagonalization
 ----
-DESCRIPTION: provides block-eigensolver function for sparse and dense matrices, adapted from Sridhara formula for the roots of a 2nd-order polynomial for scalars.
-AUTHOR: Dennis Lima (June 2025).
-PUBLISHED: July 2025
-APPLICATION: matrix compression to estimate eigenvalues faster than numpy LU eigensolver, and some Variational Quantum Eigensolvers.
 Copyright: CC BY 4.0.
+CITE: Dennis Lima and Saif Al-Kuwari. Sridhara-Compressed VQE Accelerates Molecular Energy Ranking of Polyaromatic Hydrocarbons. 2025 quant-ph arXiv. URL: https://arXiv.org/abs/2507.12678
+
+DESCRIPTION: provides block-eigensolver function for sparse and dense matrices, adapted from Sridhara formula for the roots of a 2nd-order polynomial for scalars.
+AUTHOR (algorithm): Dennis Lima (June 2025).
+PUBLISHED: July 2025
+APPLICATION: matrix compression to speed up classical and quantum eigensolvers, eigenvector compression via density matrix compression.
 ----
 
 To import functions from this python file, download the partial_algebra folder, move it to your working directory, then use:
