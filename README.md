@@ -10,7 +10,7 @@ Partial algebra methods are partial implementations of linear algebraic operatio
 This package provides a partial inversion function and a Sridhara-based block diagonalization function in python (version 3.12.0).
 
 The **partial_inversion** file has devoted functions for matrix inversion.
-The **eigensolvers** file has devoted functions for matrix compression (block diagonalization) and eigenvector compression (using density matrix approach) for sparse and dense arrays.
+The **sbd_eigensolvers** file has devoted functions for matrix compression (block diagonalization) and eigenvector compression (using density matrix approach) for sparse and dense arrays.
 
 Requirements: numpy, scipy, sympy.
 
