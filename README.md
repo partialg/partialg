@@ -7,7 +7,12 @@ Partial algebra methods are partial implementations of linear algebraic operatio
 ---
 **About**
 
-This package provides a partial inversion function and a Sridhara-based block-diagonalization function in python (version 3.12.0).
+This package provides a partial inversion function and a Sridhara-based block diagonalization function in python (version 3.12.0).
+
+The **partial_inversion** file has devoted functions for matrix compression and eigenvector compression using sparse and dense arrays.
+
+
+The **eigensolvers** file has devoted functions for matrix compression and eigenvector compression using sparse and dense arrays.
 
 Requirements: numpy, scipy, sympy.
 
@@ -17,11 +22,11 @@ Requirements for examples: matplotlib, pennylane, jax, jaxlib, optax
 
 ---
 **How to Cite**
-- For applications and modifications the Partial Inversion algorithm, cite this paper:
+- For applications and modifications of the Partial Inversion algorithm, cite this paper:
   
   **Dennis Lima and Saif Al-Kuwari. Unitarization of pseudo-unitary quantum circuits in the S-matrix framework. 2024 Phys. Scr. 99 045202. URL: https://doi.org/10.1088/1402-4896/ad298a**
 
-- For applications and modifications to the Sridhara-based Block Diagonalization algorithm, cite this paper:
+- For applications and modifications of the Sridhara-based Block Diagonalization algorithm, cite this paper:
 
   **Dennis Lima and Saif Al-Kuwari. Sridhara-Compressed VQE Accelerates Molecular Energy Ranking of Polyaromatic Hydrocarbons. 2025 quant-ph arXiv. URL: https://arXiv.org/abs/2507.12678**
 
