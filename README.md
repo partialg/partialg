@@ -17,11 +17,11 @@ Requirements for examples: matplotlib, pennylane, jax, jaxlib, optax
 
 ---
 **How to Cite**
-- For the partial inversion algorithm, cite this paper:
+- For applications and modifications the Partial Inversion algorithm, cite this paper:
   
   **Dennis Lima and Saif Al-Kuwari. Unitarization of pseudo-unitary quantum circuits in the S-matrix framework. 2024 Phys. Scr. 99 045202. URL: https://doi.org/10.1088/1402-4896/ad298a**
 
-- For the Sridhara-based Block-Diagonalization algorithm, cite this paper:
+- For applications and modifications to the Sridhara-based Block Diagonalization algorithm, cite this paper:
 
   **Dennis Lima and Saif Al-Kuwari. Sridhara-Compressed VQE Accelerates Molecular Energy Ranking of Polyaromatic Hydrocarbons. 2025 quant-ph arXiv. URL: https://arXiv.org/abs/2507.12678**
 
