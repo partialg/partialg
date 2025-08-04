@@ -9,14 +9,12 @@ Partial algebra methods are partial implementations of linear algebraic operatio
 
 This package provides a partial inversion function and a Sridhara-based block diagonalization function in python (version 3.12.0).
 
-The **partial_inversion** file has devoted functions for matrix inversion.
-The **sbd_eigensolvers** file has devoted functions for matrix compression (block diagonalization) and eigenvector compression (using density matrix approach) for sparse and dense arrays.
 
 Requirements: numpy, scipy, sympy.
 
 Requirements for examples: matplotlib, pennylane, jax, jaxlib, optax
 
-(!) Warning: jax and jaxlib may show version compatibility issues with pennylane if the correct versions are not met.
+(!) Warning: jax and jaxlib may show version compatibility issues with pennylane if the correct versions are not met. If you have version compatibility issues, we advise you to use Google Colab to run the code.
 
 ---
 **How to Cite**
@@ -26,14 +24,12 @@ Requirements for examples: matplotlib, pennylane, jax, jaxlib, optax
 
 - For applications and modifications of the Sridhara-based Block Diagonalization algorithm, cite this paper:
 
-  **Dennis Lima and Saif Al-Kuwari. Sridhara-Compressed VQE Accelerates Molecular Energy Ranking of Polyaromatic Hydrocarbons. 2025 quant-ph arXiv. URL: https://arXiv.org/abs/2507.12678**
+  [Submitted. Wait till publication.]
 
 ---
 **How to Use**
-1. Download the partialg folder, extract it and change your working directory to the parent directory of the partialg folder.
-2. Open a python environment (supported version: 3.12.0).
-3. Import the functions using **from partialg.partial_inversion import pinv** and **from partialg.eigensolvers import sbd_eigvals**.
-4. See the usage examples in the .py files for guidance.
+1. Download the partialg folder, then unzip it.
+2. Try the examples in the TUTORIAL file.
 
 ---
 **Related pages from the web**
@@ -45,10 +41,5 @@ Partial inversion on Wikipedia: https://en.wikipedia.org/wiki/Partial_inverse_of
 Cloning and deleting in a pseudo-unitary system: https://link.springer.com/article/10.1007/s11467-021-1063-z
 
 Properties of block matrices: https://en.wikipedia.org/wiki/Block_matrix
-
----
-**DISCLAIMERS**
-
-This repository is updated for bug fixes, examples and descriptions on a monthly basis.
 
 
