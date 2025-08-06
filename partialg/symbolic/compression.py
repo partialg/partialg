@@ -1,6 +1,6 @@
 from time import perf_counter
 
-from .inversion import inv
+from .inversion import invy
 from sympy import eye
 from sympy import factorint #Used to count number of factors of 2
 from sympy import sqrt, det, simplify, expand
@@ -18,7 +18,7 @@ from numpy import log2
 
 K = symbols('K') # Coefficient used in the NS_sqrt function.
 
-def NS_sqrt(a, max_it = 6, k_pow = 1/4, do_simplify=False):
+def ns_sqrty(a, max_it = 6, k_pow = 1/4, do_simplify=False):
     "Newton-Schulz matrix root expansion."
     A     = K * eye(a.shape[0])   # Initial guess
     for i in range(max_it):
@@ -28,7 +28,7 @@ def NS_sqrt(a, max_it = 6, k_pow = 1/4, do_simplify=False):
 
 # Slice blocks of matrix =====================
 
-def SridharaRoot(a, do_simplify=False):
+def sridhara_rooty(a, do_simplify=False):
     d = sqrt( a.trace()**2 - 4*det(a) )
     A = 0.5*(a.trace() - d)
     B = 0.5*(a.trace() + d)
@@ -38,7 +38,7 @@ def SridharaRoot(a, do_simplify=False):
         return (A, B)
 
 
-def Block(a, nrow=2):
+def blocky(a, nrow=2):
     ''' Splits matrix M into nrow*nrow blocks. Blocks have equal size if len(M)/nrow is integer.
     #
     INPUT  <np.array> : sparse matrix not allowed.
@@ -60,7 +60,7 @@ def Block(a, nrow=2):
 
 #==============================================
 
-def SBD_eigvals(a, sqrt= NS_sqrt, do_simplify=False, allsymbols={K}):
+def sbd_eigenvaluey(a, sqrt= ns_sqrty, do_simplify=False, allsymbols={K}):
     ''' Matrix-polynomial root via Sridhara-based Block Diagonalization method.
     PARAMETERS
         a            : matrix to take block-Bhaskara of. Accepts np.array or scipy sparse array.
@@ -68,7 +68,7 @@ def SBD_eigvals(a, sqrt= NS_sqrt, do_simplify=False, allsymbols={K}):
     OUTPUT
         <np.array>
     '''
-    blk       = Block(a, nrow=2)
+    blk       = blocky(a, nrow=2)
     A, C      = blk[0][0], blk[0][1]
     D, B      = blk[1][0], blk[1][1]
     #
@@ -91,7 +91,7 @@ def SBD_eigvals(a, sqrt= NS_sqrt, do_simplify=False, allsymbols={K}):
         return (L0, L1), allsymbols.union( {K})
 
 
-def SBD_eigbranch(M, block_index='0', only_even=False, do_simplify=False, allsymbols={K}  ):
+def sbd_eigenbranchy(M, block_index='0', only_even=False, do_simplify=False, allsymbols={K}  ):
     ''' SBD_eigbranch finds eigenleaf of block-eigenvalue tree.
     block_index <int>: index of block-diagonal matrix (its length is the number of compressions).
     only_even <bool>: True ensures output only has elements with 2*n compressions, where n is the list index, as required by some VQE algorithms. 
@@ -104,7 +104,7 @@ def SBD_eigbranch(M, block_index='0', only_even=False, do_simplify=False, allsym
         L = [M, ]
         t = [0, ]
         for i in range( len(block_index) ):
-            L0L1, allsymbols = SBD_eigvals(L[-1], do_simplify=do_simplify, allsymbols=allsymbols)
+            L0L1, allsymbols = sbd_eigenvaluey(L[-1], do_simplify=do_simplify, allsymbols=allsymbols)
             L.append( L0L1[ int(block_index[i]) ] )    # Block-eigensolving
             t.append( (perf_counter()-t0)/60. )
         #
@@ -119,7 +119,7 @@ def SBD_eigbranch(M, block_index='0', only_even=False, do_simplify=False, allsym
     return L, report
 
 
-def SBD_eigenleaf(M, block_index='0', do_simplify=False, allsymbols={K}):
+def sbd_eigenleafy(M, block_index='0', do_simplify=False, allsymbols={K}):
     ''' SBD_eigbranch finds eigenleaf of block-eigenvalue tree.
     Memory-economic SBD_eigenbranch, returning only the last block.
     '''
@@ -130,7 +130,7 @@ def SBD_eigenleaf(M, block_index='0', do_simplify=False, allsymbols={K}):
         L = [M, ]
         t = [0, ]
         for i in range( len(block_index) ):
-            L0L1, allsymbols = SBD_eigvals(L[-1], do_simplify=do_simplify, allsymbols=allsymbols)
+            L0L1, allsymbols = sbd_eigenvaluey(L[-1], do_simplify=do_simplify, allsymbols=allsymbols)
             L.append( L0L1[ int(block_index[i]) ] )    # Block-eigensolving
             t.append( (perf_counter()-t0)/60. )
             del L[0]
