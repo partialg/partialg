@@ -30,14 +30,14 @@ def sbd(a, **kwargs):
     mode = kwargs.get('mode', 'sparse')
     #
     if mode == 'sparse':
-        from .sparse.compression import SBD_eigvals
-        return SBD_eigvals(a)
+        from .sparse.compression import sbd_eigenvalues
+        return sbd_eigenvalues(a)
     elif mode == 'dense':
-        from .dense.compression import SBD_eigvals
-        return SBD_eigvals(a)
+        from .dense.compression import sbd_eigenvalue
+        return sbd_eigenvalue(a)
     elif mode == 'symbolic':
-        from .symbolic.compression import SBD_eigvals
-        return SBD_eigvals(a)
+        from .symbolic.compression import sbd_eigenvaluey
+        return sbd_eigenvaluey(a)
     else:
         raise Warning("ABORTED. Only sparse, dense or symbolic are supported.")
 
