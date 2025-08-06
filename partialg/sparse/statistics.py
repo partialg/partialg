@@ -3,7 +3,7 @@ import numpy as np
 from matplotlib import pyplot as plt
 import scipy as sp
 
-def SBDError(matrix_size, sample_size, block_eigensolver, T=0, N=1 ):
+def sbd_errors(matrix_size, sample_size, block_eigensolver, T=0, N=1 ):
     ''' 
     Compute error of random Hermitian matrices of size matrix_size up to sample_size.
     T : Translation factor
@@ -40,9 +40,9 @@ def SBDError(matrix_size, sample_size, block_eigensolver, T=0, N=1 ):
             'matrix_size':matrix_size, 'lower':T, 'upper':N+T }
 
 
-def SBDErrorPlot(data, saveas=False):
+def sbd_error_plots(data, saveas=False):
     ''' 
-    Plot outputs of SBDError.
+    Plot outputs of sbd_errors.
     '''
     error       = data['error']
     mean_error  = data['mean_error']

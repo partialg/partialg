@@ -1,11 +1,6 @@
-''' ALL
-pinv: for symbolic or dense partial inversion
+from jax.numpy import array
 
-'''
-
-import numpy as np
-
-def pinv(M, *args):
+def pinvs(M, *args):
     ''' Partial inversion algorithm
     M: numpy ndarray of floats or of sympy symbols.
     args: tuple of matrix indices. E.g.: (0,0), (1,2).
@@ -30,6 +25,6 @@ def pinv(M, *args):
                     else:
                         newrow.append(  Z[r,s] - Z[r,k] * Z_ * Z[i,s] )
             new.append( newrow )
-        Z = np.array(new).copy()
+        Z = array(new).copy()
     #
-    return np.array(new)
+    return array(new)

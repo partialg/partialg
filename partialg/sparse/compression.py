@@ -1,14 +1,13 @@
 #from sympy import factorint #Used to count number of factors of 2
 
-#import matplotlib.pyplot as plt         # For usage example only
 from time import perf_counter           # For time measurement 
 from scipy.sparse import eye
 from scipy.sparse.linalg import inv
 from scipy.sparse import csc_array #, csr_array
 from scipy.sparse.linalg import eigs
 
-from numpy import sqrt, log2
-from numpy import abs as npabs
+from jax.numpy import sqrt, log2
+from jax.numpy import abs as npabs
 
 # def ExactSrt(a):
 #     """Eigensolver way to compute matrix square roots. Not available for sparse matrices.
@@ -19,7 +18,7 @@ from numpy import abs as npabs
 #     return v.dot( np.dot( np.diag( np.sqrt( e ) ), v.inv()) )
 
 
-def NS_sqrt(a, max_it = 6, k_pow = 1/4):
+def ns_sqrts(a, max_it = 6, k_pow = 1/4):
     "Newton-Schulz matrix root expansion."
     A     = a.trace()**k_pow * eye(a.shape[0])   # Initial guess
     for i in range(max_it):
@@ -28,7 +27,7 @@ def NS_sqrt(a, max_it = 6, k_pow = 1/4):
 
 
 # Slice blocks of matrix =====================
-def Block(a, nrow=2):
+def blocks(a, nrow=2):
     ''' Splits matrix M into nrow*nrow blocks. Blocks have equal size if len(M)/nrow is integer.
     #
     INPUT  <np.array> : sparse matrix not allowed.
@@ -50,7 +49,7 @@ def Block(a, nrow=2):
 
 #==============================================
 
-def SBD_eigvals(a, sqrt= NS_sqrt):
+def sbd_eigenvalues(a, sqrt= ns_sqrts):
     ''' Matrix-polynomial root via Sridhara-based Block Diagonalization method.
     PARAMETERS
         a            : matrix to take block-Bhaskara of. Accepts np.array or scipy sparse array.
@@ -58,7 +57,7 @@ def SBD_eigvals(a, sqrt= NS_sqrt):
     OUTPUT
         <np.array>
     '''
-    blk       = Block(a, nrow=2)
+    blk       = blocks(a, nrow=2)
     A, C      = blk[0][0], blk[0][1]
     D, B      = blk[1][0], blk[1][1]
     #
@@ -78,7 +77,7 @@ def SBD_eigvals(a, sqrt= NS_sqrt):
     return (L0, L1)
 
 
-def SBD_vector(v, normalize=False):
+def sbd_vectors(v, normalize=False):
     ''' Sridhara-based Block Diagonalization compressor for vectors
     INPUTS
         v <array-like>  : numpy dense 2D array or scipy sparse 2D array with shape (n,1) for any integer n>0.
@@ -102,7 +101,7 @@ def SBD_vector(v, normalize=False):
         return None
     #
     M   = v.dot(v.T.conjugate())
-    L1  = SBD_eigvals(M)[1]      
+    L1  = sbd_eigenvalues(M)[1]      
     #
     e, v = eigs( L1, k=1, sigma=1 )
     #
@@ -112,8 +111,8 @@ def SBD_vector(v, normalize=False):
     return e, csc_array(v)
 
 
-def SBD_vectorbranch(v, block_index='0', only_even=False, normalize=False ):
-    ''' SBD_vectoreigbranch applies SBD_vector successively.
+def sbd_vectorsbranch(v, block_index='0', only_even=False, normalize=False ):
+    ''' sbd_vectorseigbranch applies sbd_vectors successively.
     block_index <int>: index of block-diagonal matrix (its length is the number of compressions).
     only_even <bool>: True ensures output only has elements with 2*n compressions, where n is the list index, as required by some VQE algorithms. 
                       False ensures output is full branch of compressed matrices.
@@ -125,7 +124,7 @@ def SBD_vectorbranch(v, block_index='0', only_even=False, normalize=False ):
         L = [v, ]
         t = [0, ]
         for i in range( len(block_index) ):
-            L.append( SBD_vector(L[-1], normalize=normalize)[ 1 ] )    # Block-eigensolving
+            L.append( sbd_vectors(L[-1], normalize=normalize)[ 1 ] )    # Block-eigensolving
             t.append( (perf_counter()-t0)/60. )
         #
         if only_even == True:
@@ -140,8 +139,8 @@ def SBD_vectorbranch(v, block_index='0', only_even=False, normalize=False ):
 
 
 
-def SBD_eigbranch(M, block_index='0', only_even=False ):
-    ''' SBD_eigbranch finds eigenleaf of block-eigenvalue tree.
+def sbd_eigenbranchs(M, block_index='0', only_even=False ):
+    ''' sbd_eigenbranchs finds eigenleaf of block-eigenvalue tree.
     block_index <int>: index of block-diagonal matrix (its length is the number of compressions).
     only_even <bool>: True ensures output only has elements with 2*n compressions, where n is the list index, as required by some VQE algorithms. 
                       False ensures output is full branch of compressed matrices.
@@ -153,7 +152,7 @@ def SBD_eigbranch(M, block_index='0', only_even=False ):
         L = [M, ]
         t = [0, ]
         for i in range( len(block_index) ):
-            L.append( SBD_eigvals(L[-1])[ int(block_index[i]) ] )    # Block-eigensolving
+            L.append( sbd_eigenvalues(L[-1])[ int(block_index[i]) ] )    # Block-eigensolving
             t.append( (perf_counter()-t0)/60. )
         #
         if only_even == True:
@@ -168,8 +167,8 @@ def SBD_eigbranch(M, block_index='0', only_even=False ):
 
 
 
-def SBD_eigenleaf(M, block_index='0'):
-    ''' SBD_eigbranch finds eigenleaf of block-eigenvalue tree.
+def sbd_eigenleafs(M, block_index='0'):
+    ''' sbd_eigenbranchs finds eigenleaf of block-eigenvalue tree.
     Memory-economic SBD_eigenbranch, returning only the last block.
     '''
     #
@@ -179,7 +178,7 @@ def SBD_eigenleaf(M, block_index='0'):
         L = [M, ]
         t = [0, ]
         for i in range( len(block_index) ):
-            L.append( SBD_eigvals(L[-1])[ int(block_index[i]) ] )    # Block-eigensolving
+            L.append( sbd_eigenvalues(L[-1])[ int(block_index[i]) ] )    # Block-eigensolving
             t.append( (perf_counter()-t0)/60. )
             del L[0]
         #
