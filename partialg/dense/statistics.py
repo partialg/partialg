@@ -1,13 +1,14 @@
 
-import numpy as np
+import jax.numpy as np
 from matplotlib import pyplot as plt
 
 
-def SBDError(matrix_size, sample_size, block_eigensolver, T=0, N=1 ):
+def sbd_error(matrix_size, sample_size, block_eigensolver, T=0, N=1 ):
     ''' 
     Compute error of random Hermitian matrices of size matrix_size up to sample_size.
     T : Translation factor
-    N : Multiplier of spectrum
+    N : Multiplication factor
+    block_eigensolver: lambda function with block_eigensolver that returns block matrix.
     '''
     tested_evs = []
     ref_evs    = []
@@ -37,9 +38,9 @@ def SBDError(matrix_size, sample_size, block_eigensolver, T=0, N=1 ):
     return {'error':error, 'mean_error': np.mean(error), 'std': np.std(error), 'matrix_size':matrix_size, 'lower':T, 'upper':N+T }
 
 
-def SBDErrorPlot(data, saveas=False):
+def sbd_error_plot(data, saveas=False):
     ''' 
-    Plot outputs of SBDError.
+    Plot outputs of sbd_error.
     '''
     error       = data['error']
     mean_error  = data['mean_error']

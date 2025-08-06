@@ -1,10 +1,12 @@
-from sympy import factorint #Used to count number of factors of 2
+#from sympy import factorint #Used to count number of factors of 2
 
 from time import perf_counter           # For time measurement 
 
 from numpy.linalg import inv, eig
-from numpy import eye, sqrt, array_split, array, log2, diag
-from numpy import abs as npabs
+from jax.numpy import eye, sqrt, array_split, array, log2, diag
+from jax.numpy import abs as npabs
+#from numpy import eye, sqrt, array_split, array, log2, diag
+#from numpy import abs as npabs
 
 from scipy.sparse import coo_array
 from scipy.sparse.linalg import eigs
@@ -20,7 +22,7 @@ from scipy.sparse.linalg import eigs
 #      return v.dot( diag( sqrt( e ) ).dot( v.inv()) )
 
 
-def NS_sqrt(a, max_it = 6, k_pow = 1/4):
+def ns_sqrt(a, max_it = 6, k_pow = 1/4):
     "Newton-Schulz matrix root expansion."
     A     = a.trace()**k_pow * eye(a.shape[0])   # Initial guess
     for i in range(max_it):
@@ -29,7 +31,7 @@ def NS_sqrt(a, max_it = 6, k_pow = 1/4):
 
 
 # Slice blocks of matrix =====================
-def Block(a, nrow=2):
+def block(a, nrow=2):
     ''' Splits matrix M into nrow*nrow blocks. Blocks have equal size if len(M)/nrow is integer.
     #
     INPUT  <np.array> : sparse matrix not allowed.
@@ -49,7 +51,7 @@ def Block(a, nrow=2):
 
 #==============================================
 
-def SBD_eigvals(a, sqrt= NS_sqrt):
+def sbd_eigenvalues(a, sqrt= ns_sqrt):
     ''' Matrix-polynomial root via Sridhara-based Block Diagonalization method.
     PARAMETERS
         a            : matrix to take block-Bhaskara of. Accepts np.array or scipy sparse array.
@@ -57,7 +59,7 @@ def SBD_eigvals(a, sqrt= NS_sqrt):
     OUTPUT
         <np.array>
     '''
-    blk       = Block(a, nrow=2)
+    blk       = block(a, nrow=2)
     A, B      = blk[0][0], blk[0][1]
     C, D      = blk[1][0], blk[1][1]
     #
@@ -79,7 +81,7 @@ def SBD_eigvals(a, sqrt= NS_sqrt):
     return (L0, L1)
 
 
-def SBD_vector(v, normalize=False):
+def sbd_vector(v, normalize=False):
     ''' Sridhara-based Block Diagonalization compressor for vectors
     INPUTS
         v <array-like>  : numpy dense 2D array or scipy sparse 2D array with shape (n,1) for any integer n>0.
@@ -104,7 +106,7 @@ def SBD_vector(v, normalize=False):
         return None
     #
     M   = v.dot(v.T.conjugate())
-    L1  = SBD_eigvals(M)[1]
+    L1  = sbd_eigenvalues(M)[1]
     L1  = coo_array( L1 )        
     #
     e, v = eigs( L1, k=1, sigma=1 )
@@ -114,7 +116,7 @@ def SBD_vector(v, normalize=False):
     #
     return e, array( v )
 
-def SBD_vectorbranch(v, block_index='0', only_even=False, normalize=False ):
+def sbd_vectorbranch(v, block_index='0', only_even=False, normalize=False ):
     ''' SBD_vectoreigbranch applies SBD_vector successively.
     block_index <int>: index of block-diagonal matrix (its length is the number of compressions).
     only_even <bool>: True ensures output only has elements with 2*n compressions, where n is the list index, as required by some VQE algorithms. 
@@ -127,7 +129,7 @@ def SBD_vectorbranch(v, block_index='0', only_even=False, normalize=False ):
         L = [v, ]
         t = [0, ]
         for i in range( len(block_index) ):
-            L.append( SBD_vector(L[-1], normalize=normalize)[ 1 ] )    # Block-eigensolving
+            L.append( sbd_vector(L[-1], normalize=normalize)[ 1 ] )    # Block-eigensolving
             t.append( (perf_counter()-t0)/60. )
         #
         if only_even == True:
@@ -142,7 +144,7 @@ def SBD_vectorbranch(v, block_index='0', only_even=False, normalize=False ):
 
 
 
-def SBD_eigbranch(M, block_index='0', only_even=False ):
+def sbd_eigenbranch(M, block_index='0', only_even=False ):
     ''' SBD_eigbranch finds eigenleaf of block-eigenvalue tree.
     block_index <int>: index of block-diagonal matrix (its length is the number of compressions).
     only_even <bool>: True ensures output only has elements with 2*n compressions, where n is the list index, as required by some VQE algorithms. 
@@ -155,7 +157,7 @@ def SBD_eigbranch(M, block_index='0', only_even=False ):
         L = [M, ]
         t = [0, ]
         for i in range( len(block_index) ):
-            L.append( SBD_eigvals(L[-1])[ int(block_index[i]) ] )    # Block-eigensolving
+            L.append( sbd_eigenvalues(L[-1])[ int(block_index[i]) ] )    # Block-eigensolving
             t.append( (perf_counter()-t0)/60. )
         #
         if only_even == True:
@@ -169,7 +171,7 @@ def SBD_eigbranch(M, block_index='0', only_even=False ):
     return L, report
 
 
-def SBD_eigenleaf(M, block_index='0'):
+def sbd_eigenleaf(M, block_index='0'):
     ''' SBD_eigbranch finds eigenleaf of block-eigenvalue tree.
     Memory-economic SBD_eigenbranch, returning only the last block.
     '''
@@ -180,7 +182,7 @@ def SBD_eigenleaf(M, block_index='0'):
         L = [M, ]
         t = [0, ]
         for i in range( len(block_index) ):
-            L.append( SBD_eigvals(L[-1])[ int(block_index[i]) ] )    # Block-eigensolving
+            L.append( sbd_eigenvalues(L[-1])[ int(block_index[i]) ] )    # Block-eigensolving
             t.append( (perf_counter()-t0)/60. )
             del L[0]
         #

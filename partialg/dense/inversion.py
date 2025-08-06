@@ -3,7 +3,7 @@ pinv: for symbolic or dense partial inversion
 
 '''
 
-import numpy as np
+from jax.numpy import array
 
 def pinv(M, *args):
     ''' Partial inversion algorithm
@@ -30,6 +30,6 @@ def pinv(M, *args):
                     else:
                         newrow.append(  Z[r,s] - Z[r,k] * Z_ * Z[i,s] )
             new.append( newrow )
-        Z = np.array(new).copy()
+        Z = array(new).copy()
     #
-    return np.array(new)
+    return array(new)
