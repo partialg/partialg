@@ -1,3 +1,37 @@
+# START OF LICENSE DECLARATION.
+#
+# CC BY-NC-ND 4.0 License
+#
+# (Attribution-NonCommercial-NoDerivatives 4.0 International)
+#
+# Copyright (c) 2025 Dennis Lima
+#
+# YOU ARE FREE TO share — copy and redistribute the material in any medium 
+# or format. The licensor cannot revoke these freedoms as long as you follow the 
+# license terms.
+#
+# UNDER THE FOLLOWING TERMS:
+#     (i) Attribution — You must give appropriate credit, provide a link to the 
+# license, and indicate if changes were made. You may do so in any reasonable 
+# manner, but not in any way that suggests the licensor endorses you or your 
+# use.
+#     (ii) NonCommercial — You may not use the material for commercial purposes .
+#     (iii) NoDerivatives — If you remix, transform, or build upon the material, you 
+# may not distribute the modified material.
+#     (iv) No additional restrictions — You may not apply legal terms or technological 
+# measures that legally restrict others from doing anything the license permits.
+#
+# Notices:
+#     (i) You do not have to comply with the license for elements of the material in the 
+# public domain or where your use is permitted by an applicable exception or 
+# limitation.
+#     (ii) No warranties are given. The license may not give you all of the permissions 
+# necessary for your intended use. For example, other rights such as publicity, 
+# privacy, or moral rights may limit how you use the material.
+#     (iii) View this license online at https://creativecommons.org/licenses/by-nc-nd/4.0/deed.en.
+#
+# END OF LICENSE DECLARATION.
+
 from time import perf_counter
 
 from .inversion import invy
@@ -7,14 +41,6 @@ from sympy import sqrt, det, simplify, expand
 from sympy import symbols
 from numpy import log2
 
-
-# def ExactSrt(a):
-#     """Eigensolver way to compute matrix square roots. Not available for sparse matrices.
-#     Availed for comparison purpose only. Not needed in the main algorithm.
-#     """
-#     e, v = np.linalg.eig( a )
-#     e    = np.array(e, dtype=complex )
-#     return v.dot( np.dot( np.diag( np.sqrt( e ) ), v.inv()) )
 
 K = symbols('K') # Coefficient used in the NS_sqrt function.
 
@@ -141,4 +167,5 @@ def sbd_eigenleafy(M, block_index='0', do_simplify=False, allsymbols={K}):
         #
     report = {'time':t, 'allsymbols':allsymbols}    # Time is in minutes
     return L[0], report
+
 #
