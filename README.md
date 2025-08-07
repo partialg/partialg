@@ -5,7 +5,7 @@ CC BY-NC-ND 4.0 License
 Copyright (c) 2025 Dennis Lima
 
 **About**
-Provides partial implementations of linear algebraic operations for n-dimensional arrays (jax.numpy), sparse arrays (scipy) and symbolic matrices (sympy). Their use cases include matrix compression, parallelization of matrix operations, approximate eigensolving, exact symbolic matrix inversion, generalized rectangular matrix inversion, definition of properties of khaguna polynomials ([https://www.jstor.org/stable/224869](read more)), isomorphism between pseudo-unitary groups. Potential impact areas include Pseudo-Unitary Quantum Mechanics, Spectral Theory (Linear Algebra), Data Analytics, Machine Learning, Molecular Simulation (Hamiltonian compression).
+Provides partial implementations of linear algebraic operations for n-dimensional arrays (jax.numpy), sparse arrays (scipy) and symbolic matrices (sympy). Their use cases include matrix compression, parallelization of matrix operations, approximate eigensolving, exact symbolic matrix inversion, generalized rectangular matrix inversion, definition of properties of khaguna polynomials (<a href="https://www.jstor.org/stable/224869">read more</a>), isomorphism between pseudo-unitary groups. Potential impact areas include Pseudo-Unitary Quantum Mechanics, Spectral Theory (Linear Algebra), Data Analytics, Machine Learning, Molecular Simulation (Hamiltonian compression).
 
 ---
 **How to Cite**
@@ -44,13 +44,13 @@ Supported python packages (for TUTORIAL only):
 ---
 **Topics related to this repo from the web**
 
-- Partial inversion on MathOverflow [https://mathoverflow.net/questions/186026/partial-inverse-of-a-matrix-or-does-it-have-its-own-name/477652#477652](link).
+- Partial inversion on MathOverflow (<a href="[https://www.jstor.org/stable/224869](https://mathoverflow.net/questions/186026/partial-inverse-of-a-matrix-or-does-it-have-its-own-name/477652#477652)">read more</a>).
 
-- Partial inversion on Wikipedia [https://en.wikipedia.org/wiki/Partial_inverse_of_a_matrix](link)
+- Partial inversion on Wikipedia (<a href="https://en.wikipedia.org/wiki/Partial_inverse_of_a_matrix">read more</a>)
 
-- Cloning and deleting in a pseudo-unitary system [https://link.springer.com/article/10.1007/s11467-021-1063-z](link).
+- Cloning and deleting in a pseudo-unitary system (<a href="https://link.springer.com/article/10.1007/s11467-021-1063-z">read more</a>).
 
-- Properties of block matrices [https://en.wikipedia.org/wiki/Block_matrix](link).
+- Properties of block matrices (<a href="https://en.wikipedia.org/wiki/Block_matrix">read more</a>).
 
 ---
 **Help me, I never used python before!**
