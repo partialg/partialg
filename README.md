@@ -8,7 +8,7 @@ Copyright (c) 2025 Dennis Lima
 Provides partial implementations of linear algebraic operations for n-dimensional arrays (jax.numpy), sparse arrays (scipy) and symbolic matrices (sympy). Their use cases include matrix compression, parallelization of matrix operations, approximate eigensolving, exact symbolic matrix inversion, generalized rectangular matrix inversion, definition of properties of khaguna polynomials (<a href="https://www.jstor.org/stable/224869">read more</a>), isomorphism between pseudo-unitary groups. Potential impact areas include Pseudo-Unitary Quantum Mechanics, Spectral Theory (Linear Algebra), Data Analytics, Machine Learning, Molecular Simulation (Hamiltonian compression).
 
 ---
-**How to Cite**
+### 💬 **How to Cite**
 - For applications and modifications of the Partial Inversion algorithm, cite this paper:
   
   **Dennis Lima and Saif Al-Kuwari. Unitarization of pseudo-unitary quantum circuits in the S-matrix framework. 2024 Phys. Scr. 99 045202. URL: https://doi.org/10.1088/1402-4896/ad298a**
@@ -18,7 +18,7 @@ Provides partial implementations of linear algebraic operations for n-dimensiona
   [Submitted. Wait till publication.]
 
 ---
-**How to Use/Requirements**
+### 💻 **How to Use / Requirements**
 For python users:
 1. Download the partialg folder, then unzip it.
 2. Try the examples in the TUTORIAL file.
@@ -42,9 +42,9 @@ Supported python packages (for TUTORIAL only):
 - pennylane - 0.41.1
 
 ---
-**Topics related to this repo from the web**
+### 📚 **Topics related to this repo from the web**
 
-- Partial inversion on MathOverflow (<a href="[https://www.jstor.org/stable/224869](https://mathoverflow.net/questions/186026/partial-inverse-of-a-matrix-or-does-it-have-its-own-name/477652#477652)">read more</a>).
+- Partial inversion on MathOverflow (<a href="https://mathoverflow.net/questions/186026/partial-inverse-of-a-matrix-or-does-it-have-its-own-name/477652#477652">read more</a>).
 
 - Partial inversion on Wikipedia (<a href="https://en.wikipedia.org/wiki/Partial_inverse_of_a_matrix">read more</a>)
 
@@ -53,8 +53,9 @@ Supported python packages (for TUTORIAL only):
 - Properties of block matrices (<a href="https://en.wikipedia.org/wiki/Block_matrix">read more</a>).
 
 ---
-**Help me, I never used python before!**
-If you're brand new to python, follow these instructions.
+### 🥲 **Help me, I'm new to python...**
+
+If you're new to python, follow these instructions.
 
 WINDOWS:
 1. Download python 3.11.9 and Microsoft Visual Studio from the Microsoft Store.
@@ -63,7 +64,7 @@ WINDOWS:
 4. Open your terminal, paste and run the following command to install the dependencies:
 
 `
-pip install jax jaxlib numpy matplotlib numpy scipy sympy tqdm optax pennylane
+pip install jax==0.4.28 jaxlib==0.4.28 numpy==2.0.2 matplotlib==3.9.2 scipy==1.16.1 sympy==1.13.3 tqdm==4.67.1 optax==0.2.5 pennylane==0.41.1
 `
 
 
@@ -73,12 +74,22 @@ UBUNTU:
 
 `sudo apt install python==3.11.9`
 
-`sudo apt install python3-pip`
+`sudo apt install python3-pip` or `sudo apt install python-pip`, whichever works first.
 
-`sudo apt install python3-pip`
+`
+pip install jax==0.4.28 jaxlib==0.4.28 numpy==2.0.2 matplotlib==3.9.2 scipy==1.16.1 sympy==1.13.3 tqdm==4.67.1 optax==0.2.5 pennylane==0.41.1 notebook
+`
 
-`pip install jax jaxlib numpy matplotlib numpy scipy sympy tqdm notebook optax pennylane`
+2. Download the partialg folder, unzip it.
+3. On terminal, change your current working directory to the same folder where the TUTORIAL folder is located (you can use the code below substituting "<YOUR DIRECTORY>" with the actual parent directory of your partialg folder). 
 
-2. Download the partialg folder, unzip it and try the TUTORIAL jupyter notebook.
+`cd <YOUR DIRECTORY>/partialg`
 
-Done! 😊
+4. On terminal, open a Jupyter Notebook using the command below.
+
+`jupyter notebook`
+
+5. Use Jupyter Notebook interface to open the TUTORIAL notebook in the partialg folder and test the examples.
+
+---
+Sorted! 😊 Now consider the environment and make today your weekly vegan day 🌟.
