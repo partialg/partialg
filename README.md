@@ -25,7 +25,8 @@ Download and use:
 
 
 Installation from terminal using git clone from within a Jupyter Notebook:
-`
+
+```
 !git clone https://github.com/partialg/partialg.git
 
 # Add cloned path to your python path
@@ -33,10 +34,17 @@ import sys
 sys.path.append('/<CLONED DIRECTORY>/partialg')    # If you're using Google Colab, your path will be '/content/partialg'
 
 # Ready to use
-import partialg
-`
+from partialg.dense.inversion import pinv
+from partialg.dense.compression import sbd_eigenvalue
 
-You must have a compatible python version and compatible packages to avoid deprecation errors. Although in most cases newer versions will work, we have no warranty that partialg will work for versions different from the ones listed here.
+# Note that all function names are lowercase and singular. Functions in the sparse and symbolic submodules end with s and y, respectively.
+from partialg.sparse.inversion import pinvs
+from partialg.symbolic.inversion import pinvy
+from partialg.sparse.compression import sbd_eigenvalues
+from partialg.symbolic.compression import sbd_eigenvaluey
+```
+
+You must have a compatible python version and compatible packages to avoid deprecation errors. Although in most cases newer versions and older version of dependencies will work, we have no guarantee that PartiAlg will work for versions different from the ones listed here.
 
 Programming language:
 - python - 3.11.9
