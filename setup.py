@@ -22,7 +22,7 @@ setup(
     python_requires=">=3.9",
     classifiers=[                     # Metadata for PyPI
         "Programming Language :: Python :: 3",
-        "License :: CC BY-NC-ND 4.0 License",
+        "License :: :: CC BY-NC-ND 4.0 License",
         "Operating System :: OS Independent",
     ],
 )
