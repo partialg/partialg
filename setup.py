@@ -19,7 +19,7 @@ setup(
         "sympy>=1.13.3",
         "tqdm>=4.67.1"
     ],
-    python_requires=">=3.0",
+    python_requires=">=3.9",
     classifiers=[                     # Metadata for PyPI
         "Programming Language :: Python :: 3",
         "License :: CC BY-NC-ND 4.0 License",
