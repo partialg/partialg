@@ -19,9 +19,22 @@ Provides partial implementations of linear algebraic operations for n-dimensiona
 
 ---
 ### 💻 **How to Use / Requirements**
-For python users:
+Download and use:
 1. Download the partialg folder, then unzip it.
 2. Try the examples in the TUTORIAL file.
+
+
+Installation from terminal using git clone from within a Jupyter Notebook:
+`
+!git clone https://github.com/partialg/partialg.git
+
+# Add cloned path to your python path
+import sys
+sys.path.append('/<CLONED DIRECTORY>/partialg')    # If you're using Google Colab, your path will be '/content/partialg'
+
+# Ready to use
+import partialg
+`
 
 You must have a compatible python version and compatible packages to avoid deprecation errors. Although in most cases newer versions will work, we have no warranty that partialg will work for versions different from the ones listed here.
 
