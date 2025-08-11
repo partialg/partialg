@@ -29,15 +29,15 @@ Installation from terminal using git clone from within a Jupyter Notebook:
 ```
 !git clone https://github.com/partialg/partialg.git
 
-# Add cloned path to your python path
+\# Add cloned path to your python path
 import sys
 sys.path.append('/<CLONED DIRECTORY>/partialg')    # If you're using Google Colab, your path will be '/content/partialg'
 
-# Ready to use
+\# Ready to use
 from partialg.dense.inversion import pinv
 from partialg.dense.compression import sbd_eigenvalue
 
-# Note that all function names are lowercase and singular. Functions in the sparse and symbolic submodules end with s and y, respectively.
+\# Note that all function names are lowercase and singular. Functions in the sparse and symbolic submodules end with s and y, respectively.
 from partialg.sparse.inversion import pinvs
 from partialg.symbolic.inversion import pinvy
 from partialg.sparse.compression import sbd_eigenvalues
