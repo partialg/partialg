@@ -18,7 +18,7 @@ Provides partial implementations of linear algebraic operations for n-dimensiona
   [Submitted. Wait till publication.]
 
 ---
-### 💻 **How to Use / Requirements**
+### 💻 **Installation and Requirements**
 Download and use:
 1. Download the partialg folder, then unzip it.
 2. Try the examples in the TUTORIAL file.
