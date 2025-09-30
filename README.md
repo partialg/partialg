@@ -14,8 +14,8 @@ Provides partial implementations of linear algebraic operations for n-dimensiona
   **Dennis Lima and Saif Al-Kuwari. Unitarization of pseudo-unitary quantum circuits in the S-matrix framework. 2024 Phys. Scr. 99 045202. URL: https://doi.org/10.1088/1402-4896/ad298a**
 
 - For applications and modifications of the Sridhara-based Block Diagonalization algorithm, cite this paper:
-
-  [Submitted. Wait till publication.]
+  
+  **Dennis Lima and Saif Al-Kuwari. Sridhara-Compressed VQE Accelerates Molecular Energy Ranking of Polyaromatic Hydrocarbons. 2025 arXiv preprint arXiv:2507.12678. URL: https://arxiv.org/abs/2507.12678**
 
 ---
 ### 💻 **Installation and Requirements**
