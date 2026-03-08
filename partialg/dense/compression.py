@@ -37,9 +37,11 @@
 from time import perf_counter           # For time measurement 
 from warnings import warn               # Used for warnings
 
-from numpy.linalg import inv, eig
+from numpy.linalg import inv
+from numpy.linalg import eig as np_eig
+import numpy.median as np_median
 from numpy import eye, sqrt, array_split, array, log2, diag
-from numpy import abs as npabs
+from numpy import abs as np_abs
 
 from scipy.sparse import coo_array
 from scipy.sparse.linalg import eigs
@@ -47,11 +49,11 @@ from scipy.sparse.linalg import eigs
 
 def lu_sqrt(a, is_hermitian=False):
     "Newton-Schulz matrix root expansion."
-    e, v = np.linalg.eig(a)
+    e, v = np_eig(a)
     if is_hermitian == False:
-        return v @ np.diag( np.sqrt(e) ) @ np.linalg.inv(v)
+        return v @ diag( sqrt(e) ) @ inv(v)
     else:
-        return v @ np.diag( np.sqrt(e) ) @ v.T.conjugate()
+        return v @ diag( sqrt(e) ) @ v.T.conjugate()
 
 
 def ns_sqrt(a: array, max_it : int = 9, k_pow : float = 1/4, convergence_threshold=None):
@@ -62,7 +64,7 @@ def ns_sqrt(a: array, max_it : int = 9, k_pow : float = 1/4, convergence_thresho
     if convergence_threshold != None:
         for i in range( max_it ):
             A_new = 0.5*(A + a @ inv(A) )
-            median_convergence.append( np.median( np.abs( A_new - A ) ) )
+            median_convergence.append( np_median( np_abs( A_new - A ) ) )
             A = A_new.copy()
             #
             # Break loop if converged
@@ -84,8 +86,8 @@ def n_sqrt(a : array, max_it : int=20, convergence_threshold=None):
     #
     if convergence_threshold != None:
         for i in range(max_it):
-            K_new = (1/2)* ( K + np.linalg.inv(K) @ K )
-            median_convergence.append( np.median( np.abs( K_new - K ) ) )
+            K_new = (1/2)* ( K + inv(K) @ K )
+            median_convergence.append( np_median( np_abs( K_new - K ) ) )
             K = K_new.copy()
             #
             # Breaking loop if converged
@@ -96,7 +98,7 @@ def n_sqrt(a : array, max_it : int=20, convergence_threshold=None):
             del K_new
     else:
         for i in range(n_iter):
-            K = (1/2)* ( K + np.linalg.inv(K) @ K )
+            K = (1/2)* ( K + inv(K) @ K )
     #
     return K, median_convergence
 
@@ -183,7 +185,7 @@ def sbd_vector(v, normalize=False):
     e, v = eigs( L1, k=1, sigma=1 )
     #
     if normalize == True:
-        v = v/npabs( sqrt( v.T.conjugate().dot( v ) ) )
+        v = v/np_abs( sqrt( v.T.conjugate().dot( v ) ) )
     #
     return e, array( v )
 
@@ -264,6 +266,7 @@ def sbd_eigenleaf(M, block_index='0'):
     report = {'time':t}    # Time is in minutes
 
     return L[0], report
+
 
 
 
