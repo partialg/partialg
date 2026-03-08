@@ -1,4 +1,4 @@
-# PartiAlg (version 0.1)
+# PartiAlg (version 0.0.1)
 
 CC BY-NC-ND 4.0 License
 
