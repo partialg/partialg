@@ -45,7 +45,7 @@ def pinv(M, *args, **kwargs):
     #
     # Initialization from range
     if 'range' in str(type( args[0] )):
-        args = tuple( [(i,i) for i in args[0] )
+        args = tuple( [(i,i) for i in args[0]] )
     #
     # Methods
     if 'dense' == method:
@@ -84,5 +84,6 @@ def peigval(a, **kwargs):
 
 
 #
+
 
 
