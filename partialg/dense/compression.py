@@ -77,13 +77,13 @@ def ns_sqrt(a: array, max_it : int = 9, k_pow : float = 1/4, convergence_thresho
     #
     return A, median_convergence
 
-def n_sqrt(a : array, n_iter : int=20, convergence_threshold=None):
+def n_sqrt(a : array, max_it : int=20, convergence_threshold=None):
     "Newton iteration to approximate matrix square root."
     K                  = a.copy()
     median_convergence = []
     #
     if convergence_threshold != None:
-        for i in range(n_iter):
+        for i in range(max_it):
             K_new = (1/2)* ( K + np.linalg.inv(K) @ K )
             median_convergence.append( np.median( np.abs( K_new - K ) ) )
             K = K_new.copy()
@@ -264,6 +264,7 @@ def sbd_eigenleaf(M, block_index='0'):
     report = {'time':t}    # Time is in minutes
 
     return L[0], report
+
 
 
 
