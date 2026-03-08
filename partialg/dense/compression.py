@@ -69,7 +69,11 @@ def ns_sqrt(a: array, max_it : int = 9, k_pow : float = 1/4, convergence_thresho
             #
             # Break loop if converged
             if median_convergence[-1] < convergence_threshold:
-                warn(f"(!) Converged at {i}th with median absolute error of {median_convergence[-1]}.") 
+                print(f"GOOD: Converged at {i}th with median absolute error of {median_convergence[-1]}.") 
+                break
+            #
+            if i == max_it-1:
+                print(f"BAD: Didn't converge after {i}th with median absolute error of {median_convergence[-1]}.") 
                 break
             #
             del A_new
@@ -92,7 +96,11 @@ def n_sqrt(a : array, max_it : int=20, convergence_threshold=None):
             #
             # Breaking loop if converged
             if median_convergence[-1] < convergence_threshold:
-                warn(f"(!) Converged at {i}th with median absolute error of {median_convergence[-1]}.") 
+                print(f"GOOD: Converged at {i}th with median absolute error of {median_convergence[-1]}.") 
+                break
+            #
+            if i == max_it-1:
+                print(f"BAD: Didn't converge after {i}th with median absolute error of {median_convergence[-1]}.") 
                 break
             #
             del K_new
@@ -266,6 +274,7 @@ def sbd_eigenleaf(M, block_index='0'):
     report = {'time':t}    # Time is in minutes
 
     return L[0], report
+
 
 
 
