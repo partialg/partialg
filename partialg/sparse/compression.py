@@ -39,19 +39,11 @@ from scipy.sparse.linalg import inv
 from scipy.sparse import csc_array #, csr_array
 from scipy.sparse.linalg import eigs
 
-from jax.numpy import sqrt, log2
-from jax.numpy import abs as npabs
-
-# def ExactSrt(a):
-#     """Eigensolver way to compute matrix square roots. Not available for sparse matrices.
-#     Availed for comparison purpose only. Not needed in the main algorithm.
-#     """
-#     e, v = np.linalg.eig( a )
-#     e    = np.array(e, dtype=complex )
-#     return v.dot( np.dot( np.diag( np.sqrt( e ) ), v.inv()) )
+from numpy import sqrt, log2
+from numpy import abs as npabs
 
 
-def ns_sqrts(a, max_it = 6, k_pow = 1/4):
+def ns_sqrts(a : csc_array, max_it :int = 6, k_pow : float = 1/4):
     "Newton-Schulz matrix root expansion."
     A     = a.trace()**k_pow * eye(a.shape[0])   # Initial guess
     for i in range(max_it):
@@ -60,13 +52,9 @@ def ns_sqrts(a, max_it = 6, k_pow = 1/4):
 
 
 # Slice blocks of matrix =====================
-def blocks(a, nrow=2):
-    ''' Splits matrix M into nrow*nrow blocks. Blocks have equal size if len(M)/nrow is integer.
-    #
-    INPUT  <np.array> : sparse matrix not allowed.
-    OUTPUT <tuple(np.array)>
+def blocks(a : csc_array, nrow : int =2):
+    ''' Splits scipy sparse array a into nrow*nrow blocks. Blocks have equal size if len(M)/nrow is integer.
     '''
-    #
     m = []
     k = int(a.shape[0]/nrow )
     #
@@ -82,26 +70,24 @@ def blocks(a, nrow=2):
 
 #==============================================
 
-def sbd_eigenvalues(a, sqrt= ns_sqrts):
+def peigvals(a : csc_array, sqrt = ns_sqrts):
     ''' Matrix-polynomial root via Sridhara-based Block Diagonalization method.
     PARAMETERS
         a            : matrix to take block-Bhaskara of. Accepts np.array or scipy sparse array.
         srt <np.array>: function to compute matrix square root
-    OUTPUT
-        <np.array>
     '''
     blk       = blocks(a, nrow=2)
-    A, C      = blk[0][0], blk[0][1]
-    D, B      = blk[1][0], blk[1][1]
+    A, B      = blk[0][0], blk[0][1]
+    C, D      = blk[1][0], blk[1][1]
     #
-    t = A + B        # Block-trace    
+    t = A + D        # Block-trace    
     #
     try:             # Block-determinant with inverse of A
         A_ = inv(A)
-        d  = A.dot(B) - A.dot(D.dot( A_.dot(C) ))
+        d  = A.dot(D) - A.dot(C.dot( A_.dot(B) ))
     except:          # Without inverse of A
-        print('Exception')
-        d  = A.dot(B) - D.dot(C)
+        raise ('Exception')
+        d  = A.dot(D) - C.dot(B)
     #
     term = sqrt( t.dot(t) - 4*d )
     L0   = 0.5*(t - term)
@@ -243,3 +229,4 @@ def transformed_eigs(M, T_factor=0, N_factor=1, make_Hermitian=True):
     return gs, report
 
 #
+
