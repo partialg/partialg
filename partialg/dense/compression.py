@@ -105,7 +105,7 @@ def n_sqrt(a : array, max_it : int=20, convergence_threshold=None):
             #
             del K_new
     else:
-        for i in range(n_iter):
+        for i in range(max_it):
             K = (1/2)* ( K + inv(K) @ K )
     #
     return K, median_convergence
@@ -274,6 +274,7 @@ def sbd_eigenleaf(M, block_index='0'):
     report = {'time':t}    # Time is in minutes
 
     return L[0], report
+
 
 
 
