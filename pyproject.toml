@@ -4,7 +4,7 @@ version = "0.0.1"
 authors = [
   { name="Dennis Lima", email="deaq54989@hbku.edu.qa" },
 ]
-description = "Partial implementation of matrix inversion, diagonalization and its applications."
+description = "Partial implementations of matrix inversion and diagonalization, and their applications."
 readme = "README.md"
 requires-python = ">=3.9"
 classifiers = [
@@ -23,4 +23,5 @@ requires = ["setuptools>=61.0", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [tool.setuptools.packages.find]
+
 where = ["src", "partialg"]
