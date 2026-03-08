@@ -18,45 +18,42 @@ Provides partial implementations of linear algebraic operations for n-dimensiona
   **Dennis Lima and Saif Al-Kuwari. Sridhara-Compressed VQE Accelerates Molecular Energy Ranking of Polyaromatic Hydrocarbons. 2025 arXiv preprint arXiv:2507.12678. URL: https://arxiv.org/abs/2507.12678**
 
 ---
-### 💻 **Installation and Requirements**
-Download and use:
-1. Download the partialg folder, then unzip it.
-2. Try the examples in the TUTORIAL file.
-
-
-Installation from terminal using git clone from within a Jupyter Notebook:
-
+### 💻 **Installation and First Use**
+1. Download from terminal (or jupyter notebook, using !pip):
 ```
-!git clone https://github.com/partialg/partialg.git
+pip install git+https://github.com/partialg/partialg.git
+```
+2. import functions and test them:
+```
+# Notice that all function names are lowercase and singular.
+# Functions in the sparse and symbolic submodules end with s and y, respectively.
 
-# Add cloned path to your python path
-import sys
-sys.path.append('/<CLONED DIRECTORY>/partialg')    # If you're using Google Colab, your path will be '/content/partialg'
+# Proxies for dense, symbolic and sparse data types
+from partialg import pinv    
+from partialg import inv
+from partialg import peigval
 
-# Ready to use
-from partialg.dense.inversion import pinv
-from partialg.dense.compression import sbd_eigenvalue
+# Dense submodules
+from partialg.inversion import pinv
+from partialg.compression import peigenval
+from partialg.zpu_quantum import h, x, y, z, i.
 
-# Note that all function names are lowercase and singular. Functions in the sparse and symbolic submodules end with s and y, respectively.
-from partialg.sparse.inversion import pinvs
-from partialg.symbolic.inversion import pinvy
-from partialg.sparse.compression import sbd_eigenvalues
-from partialg.symbolic.compression import sbd_eigenvaluey
+# Other submodules
+from partialg.sparse.compression import peigenvals
+from partialg.symbolic.compression import peigenvaly
+
+# Simple usage examples with a Hermitian matrix
+import numpy as np
+a       = np.random.rand(4,4) + 1j*np.random.rand(4,4)
+a       = 0.5*( a + a.T.conjugate() )
+
+a_00_01 = pinv(a, (0,0), (0,1) )
+a_      = pinv(a, range(a.shape[0) ) )
+b       = peigenval(a)
 ```
 
-You must have a compatible python version and compatible packages to avoid deprecation errors. Although in most cases newer versions and older version of dependencies will work, we have no guarantee that PartiAlg will work for versions different from the ones listed here.
 
-Programming language:
-- python - 3.11.9
-
-Supported python packages (requirements):
-- matplotlib - 3.9.2
-- numpy - 2.0.2
-- scipy - 1.16.1
-- sympy - 1.13.3
-- tqdm - 4.67.1 
-
-Supported python packages (for TUTORIAL only):
+Supported python packages for TUTORIAL:
 - optax - 0.2.5
 - pennylane - 0.41.1
 
@@ -73,4 +70,4 @@ Supported python packages (for TUTORIAL only):
 
 
 ---
-Sorted! 😊 Now consider the environment and make today your weekly vegan day 🌟.
+Now consider the environment and make today your weekly vegan day 🌟.
