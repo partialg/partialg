@@ -31,10 +31,11 @@
 #     (iii) View this license online at https://creativecommons.org/licenses/by-nc-nd/4.0/deed.en.
 #
 # END OF LICENSE DECLARATION.
+from sympy import ImmutableMatrix
 
-def inv(M, *args, **kwargs):
+def pinv(M, *args, **kwargs):
     ''' Partial inversion algorithm
-    M: numpy ndarray of floats or of sympy symbols.
+    M: np.array, scipy.sparse.csc_array or sympy.Matrix.
     args:   tuple of matrix indices. E.g.: (0,0), (1,2).
             If no args is given, returns M unchanged.
             If range is given as only args, generates pairs of equal indices from range.
@@ -46,14 +47,14 @@ def inv(M, *args, **kwargs):
     if 'range' in str(type( args[0] )):
         args = tuple( [(i,i) for i in args[0] )
     #
-    # Methos
+    # Methods
     if 'dense' == method:
         from .dense.inversion import inv
-        return inv(M, *args)
+        return pinv(M, *args)
     elif 'symbolic' == method:
         # Yes, it's the same as for 'dense'
         from .dense.inversion import inv 
-        return inv(M, *args)
+        return ImmutableMatrix( pinv(M, *args) )
     elif 'sparse' == method:
         raise Warning('ABORTED. Method not supported. Retuning None.')
         return None
@@ -62,26 +63,26 @@ def inv(M, *args, **kwargs):
         return None
     
 
-def eig(a, **kwargs):
+def peigval(a, **kwargs):
     ''' Matrix-polynomial root via Sridhara Block Eigensolver method.
     PARAMETERS
         a            : 2D array to take block-Bhaskara of. Accepts np.array, scipy sparse array or sympy Matrix.
-    OUTPUT
     '''
     method = kwargs.get('method', 'sparse')
     #
     if method == 'sparse':
-        from .sparse.compression import eigs
-        return eigs(a)
+        from .sparse.compression import peigvals
+        return peigvals(a)
     elif method == 'dense':
-        from .dense.compression import eig
-        return eig(a)
+        from .dense.compression import peigval
+        return peigval(a)
     elif method == 'symbolic':
-        from .symbolic.compression import eigy
-        return eigy(a)
+        from .symbolic.compression import peigvaly
+        return peigvaly(a)
     else:
         raise Warning("ABORTED. Only sparse, dense or symbolic are supported.")
 
 
 #
+
 
