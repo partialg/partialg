@@ -37,26 +37,14 @@
 from time import perf_counter           # For time measurement 
 
 from numpy.linalg import inv, eig
-from jax.numpy import eye, sqrt, array_split, array, log2, diag
-from jax.numpy import abs as npabs
-#from numpy import eye, sqrt, array_split, array, log2, diag
-#from numpy import abs as npabs
+from numpy import eye, sqrt, array_split, array, log2, diag
+from numpy import abs as npabs
 
 from scipy.sparse import coo_array
 from scipy.sparse.linalg import eigs
 
 
-
-# def exact_sqrt(a):
-#      """Eigensolver way to compute matrix square roots. Not available for sparse matrices.
-#      Availed for comparison purpose only. Not needed in the main algorithm.
-#      """
-#      e, v = eig( a )
-#      e    = array(e, dtype=complex )
-#      return v.dot( diag( sqrt( e ) ).dot( v.inv()) )
-
-
-def ns_sqrt(a, max_it = 6, k_pow = 1/4):
+def ns_sqrt(a, max_it : int = 9, k_pow : float = 1/4):
     "Newton-Schulz matrix root expansion."
     A     = a.trace()**k_pow * eye(a.shape[0])   # Initial guess
     for i in range(max_it):
@@ -65,7 +53,7 @@ def ns_sqrt(a, max_it = 6, k_pow = 1/4):
 
 
 # Slice blocks of matrix =====================
-def block(a, nrow=2):
+def block(a, nrow : int = 2):
     ''' Splits matrix M into nrow*nrow blocks. Blocks have equal size if len(M)/nrow is integer.
     #
     INPUT  <np.array> : sparse matrix not allowed.
@@ -227,4 +215,5 @@ def sbd_eigenleaf(M, block_index='0'):
     report = {'time':t}    # Time is in minutes
 
     return L[0], report
+
 
