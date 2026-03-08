@@ -25,8 +25,10 @@ pip install git+https://github.com/partialg/partialg.git
 ```
 2. import functions and test them:
 ```
-# Notice that all function names are lowercase and singular.
-# Functions in the sparse and symbolic submodules end with s and y, respectively.
+# NOTATION
+# All function names are lowercase and singular.
+# The suffixes -, -y, -s are for functions for dense, symbolic and sparse arrays, respectively.
+# The prefix p- preceeds a standard name for partialized functions (inv -> pinv, eigval -> peigval).
 
 # Proxies for dense, symbolic and sparse data types
 from partialg import pinv    
@@ -35,12 +37,12 @@ from partialg import peigval
 
 # Dense submodules
 from partialg.inversion import pinv
-from partialg.compression import peigenval
+from partialg.compression import peigval
 from partialg.zpu_quantum import h, x, y, z, i.
 
 # Other submodules
-from partialg.sparse.compression import peigenvals
-from partialg.symbolic.compression import peigenvaly
+from partialg.sparse.compression import peigvals
+from partialg.symbolic.compression import peigvaly
 
 # Simple usage examples with a Hermitian matrix
 import numpy as np
@@ -49,7 +51,7 @@ a       = 0.5*( a + a.T.conjugate() )
 
 a_00_01 = pinv(a, (0,0), (0,1) )
 a_      = pinv(a, range(a.shape[0) ) )
-b       = peigenval(a)
+b       = peigval(a)
 ```
 
 
