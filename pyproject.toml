@@ -1,0 +1,26 @@
+[project]
+name = "partialg"
+version = "0.0.1"
+authors = [
+  { name="Dennis Lima", email="deaq54989@hbku.edu.qa" },
+]
+description = "Partial implementation of matrix inversion, diagonalization and its applications."
+readme = "README.md"
+requires-python = ">=3.9"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Operating System :: OS Independent",
+]
+
+[project.license]
+file = "LICENSE.txt"
+
+[project.urls]
+Homepage = "https://github.com/partialg/partialg"
+
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["src", "partialg"]
