@@ -32,47 +32,56 @@
 #
 # END OF LICENSE DECLARATION.
 
-def pinv(M, *args, **kwargs):
+def inv(M, *args, **kwargs):
     ''' Partial inversion algorithm
     M: numpy ndarray of floats or of sympy symbols.
-    args: tuple of matrix indices. E.g.: (0,0), (1,2).
+    args:   tuple of matrix indices. E.g.: (0,0), (1,2).
+            If no args is given, returns M unchanged.
+            If range is given as only args, generates pairs of equal indices from range.
     # COMMENT: For ndarrays with more than 2 axes, only the first two are considered.
     '''
-    mode = kwargs.get('mode', 'sparse')
-    if mode == 'dense':
-        from .dense.inversion import pinv
-        return pinv(M, *args)
-    elif mode == 'symbolic':
+    method = kwargs.get('method', 'sparse')
+    #
+    # Initialization from range
+    if 'range' in str(type( args[0] )):
+        args = tuple( [(i,i) for i in args[0] )
+    #
+    # Methos
+    if 'dense' == method:
+        from .dense.inversion import inv
+        return inv(M, *args)
+    elif 'symbolic' == method:
         # Yes, it's the same as for 'dense'
-        from .dense.inversion import pinv 
-        return pinv(M, *args)
-    elif mode == 'sparse':
-        raise Warning('ABORTED. Sparse partial inversion not currently supported.')
+        from .dense.inversion import inv 
+        return inv(M, *args)
+    elif 'sparse' == method:
+        raise Warning('ABORTED. Method not supported. Retuning None.')
+        return None
     else:
-        raise Warning('ABORTED. Mode not supported.') 
+        raise Warning('ABORTED. Method not supported. Returning None.') 
+        return None
     
 
-def sbd(a, **kwargs):
-    ''' Matrix-polynomial root via Sridhara-based Block Diagonalization method.
+def eig(a, **kwargs):
+    ''' Matrix-polynomial root via Sridhara Block Eigensolver method.
     PARAMETERS
-        a            : matrix to take block-Bhaskara of. Accepts np.array or scipy sparse array.
-        srt <np.array>: function to compute matrix square root
+        a            : 2D array to take block-Bhaskara of. Accepts np.array, scipy sparse array or sympy Matrix.
     OUTPUT
-        <np.array>
     '''
-    mode = kwargs.get('mode', 'sparse')
+    method = kwargs.get('method', 'sparse')
     #
-    if mode == 'sparse':
-        from .sparse.compression import sbd_eigenvalues
-        return sbd_eigenvalues(a)
-    elif mode == 'dense':
-        from .dense.compression import sbd_eigenvalue
-        return sbd_eigenvalue(a)
-    elif mode == 'symbolic':
-        from .symbolic.compression import sbd_eigenvaluey
-        return sbd_eigenvaluey(a)
+    if method == 'sparse':
+        from .sparse.compression import eigs
+        return eigs(a)
+    elif method == 'dense':
+        from .dense.compression import eig
+        return eig(a)
+    elif method == 'symbolic':
+        from .symbolic.compression import eigy
+        return eigy(a)
     else:
         raise Warning("ABORTED. Only sparse, dense or symbolic are supported.")
 
 
 #
+
