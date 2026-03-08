@@ -1,8 +1,8 @@
 from setuptools import setup, find_packages
 
 setup(
-    name="partialg",                # Your package name
-    version="0.1.0",                  # Version (SemVer recommended)
+    name="partialg",                 
+    version="0.1.0",                  
     author="Dennis Lima",
     author_email="deaq54989@hbku.edu.qa",
     description="Partial implementation of matrix inversion, diagonalization and its applications.",
@@ -13,8 +13,6 @@ setup(
     install_requires=[                # Dependencies
         "numpy>=2.0.2",
         "scipy>=1.16.1",
-        "jax==0.4.28",
-        "jaxlib==0.4.28",
         "matplotlib>=3.9.2",
         "sympy>=1.13.3",
         "tqdm>=4.67.1"
