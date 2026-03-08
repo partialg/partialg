@@ -61,7 +61,11 @@ def pinv(M, *args, **kwargs):
     else:
         raise Warning('ABORTED. Method not supported. Returning None.') 
         return None
-    
+
+def inv(a, **kwargs):
+    "Full matrix inversion via partial inversion"
+    return pinv(a, range(a.shape[0]))
+
 
 def peigval(a, **kwargs):
     ''' Matrix-polynomial root via Sridhara Block Eigensolver method.
@@ -84,6 +88,7 @@ def peigval(a, **kwargs):
 
 
 #
+
 
 
 
