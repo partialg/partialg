@@ -16,7 +16,7 @@ setup(
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://github.com/partialg/partialg",
-    packages=find_packages(where="partialg"),
+    packages=find_packages(),
     package_dir={"": "partialg"},
     license="CC BY-NC-ND 4.0",
     install_requires=[                # Dependencies
