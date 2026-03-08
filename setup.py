@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name="partialg",                 
-    version="0.1.0",                  
+    version="0.0.1",                  
     author="Dennis Lima",
     author_email="deaq54989@hbku.edu.qa",
     description="Partial implementation of matrix inversion, diagonalization and its applications.",
