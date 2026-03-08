@@ -35,6 +35,7 @@
 
 
 from time import perf_counter           # For time measurement 
+from warnings import warn               # Used for warnings
 
 from numpy.linalg import inv, eig
 from numpy import eye, sqrt, array_split, array, log2, diag
@@ -44,12 +45,60 @@ from scipy.sparse import coo_array
 from scipy.sparse.linalg import eigs
 
 
-def ns_sqrt(a, max_it : int = 9, k_pow : float = 1/4):
+def lu_sqrt(a, is_hermitian=False):
+    "Newton-Schulz matrix root expansion."
+    e, v = np.linalg.eig(a)
+    if is_hermitian == False:
+        return v @ np.diag( np.sqrt(e) ) @ np.linalg.inv(v)
+    else:
+        return v @ np.diag( np.sqrt(e) ) @ v.T.conjugate()
+
+
+def ns_sqrt(a: array, max_it : int = 9, k_pow : float = 1/4, convergence_threshold=None):
     "Newton-Schulz matrix root expansion."
     A     = a.trace()**k_pow * eye(a.shape[0])   # Initial guess
-    for i in range(max_it):
-        A = 0.5*(A + a @ inv(A) )
-    return A
+    median_convergence = []
+    #
+    if convergence_threshold != None:
+        for i in range( max_it ):
+            A_new = 0.5*(A + a @ inv(A) )
+            median_convergence.append( np.median( np.abs( A_new - A ) ) )
+            A = A_new.copy()
+            #
+            # Break loop if converged
+            if median_convergence[-1] < convergence_threshold:
+                warn(f"(!) Converged at {i}th with median absolute error of {median_convergence[-1]}.") 
+                break
+            #
+            del A_new
+    else:
+        for i in range( max_it ):
+            A = 0.5*(A + a @ inv(A) )
+    #
+    return A, median_convergence
+
+def n_sqrt(a : array, n_iter : int=20, convergence_threshold=None):
+    "Newton iteration to approximate matrix square root."
+    K                  = a.copy()
+    median_convergence = []
+    #
+    if convergence_threshold != None:
+        for i in range(n_iter):
+            K_new = (1/2)* ( K + np.linalg.inv(K) @ K )
+            median_convergence.append( np.median( np.abs( K_new - K ) ) )
+            K = K_new.copy()
+            #
+            # Breaking loop if converged
+            if median_convergence[-1] < convergence_threshold:
+                warn(f"(!) Converged at {i}th with median absolute error of {median_convergence[-1]}.") 
+                break
+            #
+            del K_new
+    else:
+        for i in range(n_iter):
+            K = (1/2)* ( K + np.linalg.inv(K) @ K )
+    #
+    return K, median_convergence
 
 
 # Slice blocks of matrix =====================
@@ -215,5 +264,6 @@ def sbd_eigenleaf(M, block_index='0'):
     report = {'time':t}    # Time is in minutes
 
     return L[0], report
+
 
 
