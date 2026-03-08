@@ -33,7 +33,7 @@
 # END OF LICENSE DECLARATION.
 
 
-import jax.numpy as np
+import numpy as np
 from matplotlib import pyplot as plt
 
 
@@ -117,4 +117,5 @@ def sbd_error_plot(data, saveas=False):
         plt.savefig(saveas+'.png', dpi=800, format='png')
     else:
         plt.show()
+
 
