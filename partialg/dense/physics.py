@@ -33,56 +33,55 @@
 # END OF LICENSE DECLARATION.
 
 
+from numpy import array, where, kron, concatenate, sqrt
 
-from jax.numpy import array, where, kron, concatenate, sqrt
+def nth_odious(i : int):
+    return 2 * (i+1) - 1 - i.bit_count() % 2
 
-def odious_series(n):
-    """ Returns sequence from first to nth odious number.
+def odious_series(start : int = 0, stop : int = None, step : int = 1):
+    """ Returns sequence from (start) to (stop+1)th odious number at intervals of (step).
     """
+    if stop == None:
+        stop  = start
+        start = 0
     #
-    z = array([1,-1]) 
-    s = z.copy()
-    w = array([1], dtype=int)
-    for i in range(n):
-        s = kron(s,z)
-        w = where( s == -1 )[0]
-        if w.shape[0] >= n:
-            break
-    #
-    return w[:n]
+    seq = []
+    for i in range(start, stop, step):
+        seq.append( nth_odious(i) )
+    return tuple(seq)
 
-def evil_series(n):
-    """ Returns sequence from first to nth odious number.
+def nth_evil(i : int):
+    return 2 * (i+1) - 2 + (i.bit_count() % 2)
+
+def evil_series(start : int = 0, stop : int = None, step : int = 1):
+    """ Returns sequence from (start) to (stop+1)th evil number at intervals of (step).
     """
+    if stop == None:
+        stop  = start
+        start = 0
     #
-    z_ = array([1,1j]) 
-    s = z_.copy()
-    w = array([0], dtype=int)
-    for i in range(n):
-        s = kron(s,z_)
-        w = where( s == -1 )[0]
-        if w.shape[0] >= n:
-            break
-    #
-    return concatenate( (np.array([0]), w[:n-1]) )
+    seq = []
+    for i in range(start, stop, step):
+        seq.append( nth_evil(i) )
+    return tuple(seq)
 
-def zpu_h():
+def h(**kwargs):
     "Z-pseudo-unitary Hadamard quantum gate"
     return array([[sqrt(2),-1],[1,-sqrt(2)]])
 
-def zpu_x( kha=0.0001):
+def x( kha=0.0001):
     "Z-pseudo-unitary X quantum gate, with khaguna set numerically."
     return array([[-1,1],[-1,1]])/kha
 
-def zpu_y(kha=0.0001):
+def y(kha=0.0001):
     "Z-pseudo-unitary Y quantum gate, with khaguna set numerically."
     return array([[-1, -1j],[-1j, 1]])/kha
 
-def zpu_z(kha=0.0001):
+def z(kha=0.0001):
     "Z-pseudo-unitary Z quantum gate."
     return array([[1,kha],[kha,-1]])
 
-def zpu_i(kha=0.0001):
+def i(kha=0.0001):
     "Identity quantum gate."
     return array([[1,kha],[kha,1]])
 
@@ -90,7 +89,8 @@ def kha_gate(kha=0.0001):
     "Null quantum gate with khaguna basis."
     return array([[kha,kha],[kha,kha]])
 
-def zpu_o(kha=0.0001):
-    "Null quantum gate."
+def o(kha=0.0001):
+    "Z-pseudo-unitary Null quantum gate, with khaguna set numerically."
     return array([[kha,1],[-1,1/kha]])
+
 
