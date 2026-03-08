@@ -11,9 +11,13 @@ classifiers = [
     "Programming Language :: Python :: 3",
     "Operating System :: OS Independent",
 ]
-
-[project.license]
-file = "LICENSE.txt"
+dependencies = [
+        "numpy>=2.0.2",
+        "scipy>=1.16.1",
+        "sympy>=1.13.3",
+        "matplotlib>=3.9.2",
+        "tqdm>=4.67.1"
+]
 
 [project.urls]
 Homepage = "https://github.com/partialg/partialg"
@@ -23,5 +27,7 @@ requires = ["setuptools>=61.0", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [tool.setuptools.packages.find]
+where = [".", "partialg"]
 
-where = ["src", "partialg"]
+[project.license]
+file = "LICENSE.txt"
