@@ -34,7 +34,7 @@
 
 from time import perf_counter
 
-from .inversion import invy
+from ...core import inv
 from sympy import eye
 from sympy import factorint #Used to count number of factors of 2
 from sympy import sqrt, det, simplify, expand
@@ -169,3 +169,4 @@ def sbd_eigenleafy(M, block_index='0', do_simplify=False, allsymbols={K}):
     return L[0], report
 
 #
+
