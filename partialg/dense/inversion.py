@@ -34,9 +34,9 @@
 
 
 
-from jax.numpy import array
+from numpy import array
 
-def pinv(M, *args):
+def inv(M, *args):
     ''' Partial inversion algorithm
     M: numpy ndarray of floats or of sympy symbols.
     args: tuple of matrix indices. E.g.: (0,0), (1,2).
@@ -63,5 +63,5 @@ def pinv(M, *args):
             new.append( newrow )
         Z = array(new).copy()
     #
-
     return array(new)
+
