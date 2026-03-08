@@ -39,7 +39,7 @@ from warnings import warn               # Used for warnings
 
 from numpy.linalg import inv
 from numpy.linalg import eig as np_eig
-import numpy.median as np_median
+from numpy import median as np_median
 from numpy import eye, sqrt, array_split, array, log2, diag
 from numpy import abs as np_abs
 
@@ -266,6 +266,7 @@ def sbd_eigenleaf(M, block_index='0'):
     report = {'time':t}    # Time is in minutes
 
     return L[0], report
+
 
 
 
