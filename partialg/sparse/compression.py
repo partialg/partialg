@@ -34,16 +34,14 @@
 
 
 from time import perf_counter           # For time measurement 
-from scipy.sparse import eye
-from scipy.sparse.linalg import inv
-from scipy.sparse import csc_array #, csr_array
-from scipy.sparse.linalg import eigs
+from scipy.sparse import eye, csc_array
+from scipy.sparse.linalg import inv, eigs
 
 from numpy import sqrt, log2
 from numpy import abs as npabs
 
 
-def ns_sqrts(a : csc_array, max_it :int = 6, k_pow : float = 1/4):
+def ns_sqrts(a : csc_array, max_it :int = 9, k_pow : float = 1/4):
     "Newton-Schulz matrix root expansion."
     A     = a.trace()**k_pow * eye(a.shape[0])   # Initial guess
     for i in range(max_it):
@@ -120,7 +118,7 @@ def sbd_vectors(v, normalize=False):
         return None
     #
     M   = v.dot(v.T.conjugate())
-    L1  = sbd_eigenvalues(M)[1]      
+    L1  = peigvals(M)[1]      
     #
     e, v = eigs( L1, k=1, sigma=1 )
     #
@@ -130,8 +128,8 @@ def sbd_vectors(v, normalize=False):
     return e, csc_array(v)
 
 
-def sbd_vectorsbranch(v, block_index='0', only_even=False, normalize=False ):
-    ''' sbd_vectorseigbranch applies sbd_vectors successively.
+def sbd_vectorbranchs(v, block_index='0', only_even=False, normalize=False ):
+    ''' sbd_vectorbranch applies sbd_vectors successively.
     block_index <int>: index of block-diagonal matrix (its length is the number of compressions).
     only_even <bool>: True ensures output only has elements with 2*n compressions, where n is the list index, as required by some VQE algorithms. 
                       False ensures output is full branch of compressed matrices.
@@ -229,4 +227,5 @@ def transformed_eigs(M, T_factor=0, N_factor=1, make_Hermitian=True):
     return gs, report
 
 #
+
 
