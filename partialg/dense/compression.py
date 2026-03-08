@@ -64,16 +64,16 @@ def ns_sqrt(a: array, max_it : int = 9, k_pow : float = 1/4, convergence_thresho
     if convergence_threshold != None:
         for i in range( max_it ):
             A_new = 0.5*(A + a @ inv(A) )
-            median_convergence.append( np_median( np_abs( A_new - A ) ) )
+            median_convergence.append( np_max( np_abs( A_new - A ) ) )
             A = A_new.copy()
             #
             # Break loop if converged
             if median_convergence[-1] < convergence_threshold:
-                print(f"GOOD: Converged at {i}th with median absolute error of {median_convergence[-1]}.") 
+                print(f"GOOD: Converged at {i}th with maximum absolute error of {median_convergence[-1]}.") 
                 break
             #
             if i == max_it-1:
-                print(f"BAD: Didn't converge after {i}th with median absolute error of {median_convergence[-1]}.") 
+                print(f"BAD: Didn't converge after {i}th with maximum absolute error of {median_convergence[-1]}.") 
                 break
             #
             del A_new
@@ -91,16 +91,16 @@ def n_sqrt(a : array, max_it : int=20, convergence_threshold=None):
     if convergence_threshold != None:
         for i in range(max_it):
             K_new = (1/2)* ( K + inv(K) @ K )
-            median_convergence.append( np_median( np_abs( K_new - K ) ) )
+            median_convergence.append( np_max( np_abs( K_new - K ) ) )
             K = K_new.copy()
             #
             # Breaking loop if converged
             if median_convergence[-1] < convergence_threshold:
-                print(f"GOOD: Converged at {i}th with median absolute error of {median_convergence[-1]}.") 
+                print(f"GOOD: Converged at {i}th with maximum absolute error of {median_convergence[-1]}.") 
                 break
             #
             if i == max_it-1:
-                print(f"BAD: Didn't converge after {i}th with median absolute error of {median_convergence[-1]}.") 
+                print(f"BAD: Didn't converge after {i}th with maximum absolute error of {median_convergence[-1]}.") 
                 break
             #
             del K_new
@@ -274,6 +274,7 @@ def sbd_eigenleaf(M, block_index='0'):
     report = {'time':t}    # Time is in minutes
 
     return L[0], report
+
 
 
 
