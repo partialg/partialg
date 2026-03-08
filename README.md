@@ -5,7 +5,7 @@ CC BY-NC-ND 4.0 License
 Copyright (c) 2025 Dennis Lima
 
 ### **About**
-Provides partial implementations of linear algebraic operations for n-dimensional arrays (jax.numpy), sparse arrays (scipy) and symbolic matrices (sympy). Their use cases include matrix compression, parallelization of matrix operations, approximate eigensolving, exact symbolic matrix inversion, generalized rectangular matrix inversion, definition of properties of khaguna polynomials (<a href="https://www.jstor.org/stable/224869">read more</a>), isomorphism between pseudo-unitary groups. Potential impact areas include Pseudo-Unitary Quantum Mechanics, Spectral Theory (Linear Algebra), Data Analytics, Machine Learning, Molecular Simulation (Hamiltonian compression).
+Provides partial implementations of linear algebraic operations for n-dimensional arrays (numpy), sparse arrays (scipy) and symbolic matrices (sympy). Their use cases include matrix compression, parallelization of matrix operations, approximate eigensolving, exact symbolic matrix inversion, generalized rectangular matrix inversion, definition of properties of khaguna polynomials (<a href="https://www.jstor.org/stable/224869">read more</a>), isomorphism between pseudo-unitary groups. Potential impact areas include Pseudo-Unitary Quantum Mechanics, Spectral Theory (Linear Algebra), Data Analytics, Machine Learning, Molecular Simulation (Hamiltonian compression).
 
 ---
 ### 💬 **How to Cite**
@@ -50,8 +50,6 @@ Programming language:
 - python - 3.11.9
 
 Supported python packages (requirements):
-- jax - 0.4.28
-- jaxlib - 0.4.28
 - matplotlib - 3.9.2
 - numpy - 2.0.2
 - scipy - 1.16.1
