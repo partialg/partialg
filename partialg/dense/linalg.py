@@ -112,4 +112,4 @@ def fl_norm(a):
     s4 = np_sum( squared_norm(commutator(B,D)) )
     s5 = np_sum( squared_norm(commutator(C,D)) )
     #
-    return np.sqrt( (1/6)*(s0 + s1 + s2 + s3 + s4 + s5) )
+    return np_sqrt( (1/6)*(s0 + s1 + s2 + s3 + s4 + s5) )
