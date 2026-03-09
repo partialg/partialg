@@ -1,12 +1,17 @@
 # Provides matrix square root iterations
 
+from numpy.linalg import inv
+from numpy.linalg import (eig as np_eig, eigh as np_eigh)
+from numpy import diag, eye, array, array_split
+from numpy import (abs as np_abs, max as np_max, sqrt as np_sqrt) 
 
 def lu_sqrt(a, is_hermitian=False):
     "Newton-Schulz matrix root expansion."
-    e, v = np_eig(a)
     if is_hermitian == False:
+        e, v = np_eig(a)
         return v @ diag( sqrt(e) ) @ inv(v)
     else:
+        e, v = np_eigh(a)
         return v @ diag( sqrt(e) ) @ v.T.conjugate()
 
 
@@ -92,17 +97,17 @@ def squared_norm(a):
 
 def f_norm(a):
     "Frobenious norm of a matrix a"
-    return np.sqrt( np.sum( a**2 ) )
+    return np_sqrt( np_sum( a**2 ) )
 
 def fl_norm(a):
     "Frobenious-Lima norm of commutators of blocks of a."
     A, B, C, D = block(a)
     #
-    s0 = np.sum( squared_norm(commutator(A,B)) )
-    s1 = np.sum( squared_norm(commutator(A,C)) )
-    s2 = np.sum( squared_norm(commutator(A,D)) )
-    s3 = np.sum( squared_norm(commutator(B,C)) )
-    s4 = np.sum( squared_norm(commutator(B,D)) )
-    s5 = np.sum( squared_norm(commutator(C,D)) )
+    s0 = np_sum( squared_norm(commutator(A,B)) )
+    s1 = np_sum( squared_norm(commutator(A,C)) )
+    s2 = np_sum( squared_norm(commutator(A,D)) )
+    s3 = np_sum( squared_norm(commutator(B,C)) )
+    s4 = np_sum( squared_norm(commutator(B,D)) )
+    s5 = np_sum( squared_norm(commutator(C,D)) )
     #
     return np.sqrt( (1/6)*(s0 + s1 + s2 + s3 + s4 + s5) )
