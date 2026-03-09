@@ -49,7 +49,7 @@ from .linalg import block, ns_sqrt
 
 #==============================================
 
-def peigval(a, sqrt= ns_sqrt):
+def peigval(a, sqrt= ns_sqrt, max_it:int=9):
     ''' Matrix-polynomial root via Sridhara-based Block Diagonalization method.
     PARAMETERS
         a            : matrix to take block-Bhaskara of. Accepts np.array or scipy sparse array.
@@ -72,7 +72,7 @@ def peigval(a, sqrt= ns_sqrt):
         print('NOTE: Used singular matrix method.')
         d  = A.dot(D) - C.dot(B)
     #
-    term = sqrt( t.dot(t) - 4*d )
+    term = sqrt( t.dot(t) - 4*d, max_it=max_it )
     L0   = 0.5*(t - term[0])
     L1   = 0.5*(t + term[0])
     #
@@ -191,6 +191,7 @@ def sbd_eigenleaf(M, block_index='0'):
     report = {'time':t}    # Time is in minutes
 
     return L[0], report
+
 
 
 
