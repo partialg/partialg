@@ -101,7 +101,9 @@ def f_norm(a):
 
 def fl_norm(a):
     "Frobenious-Lima norm of commutators of blocks of a."
-    A, B, C, D = block(a)
+    A_B, C_D = block(a)
+    A, B     = A_B
+    C, D     = C_D
     #
     s0 = np_sum( squared_norm(commutator(A,B)) )
     s1 = np_sum( squared_norm(commutator(A,C)) )
