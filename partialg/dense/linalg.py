@@ -28,11 +28,11 @@ def ns_sqrt(a: array, max_it : int = 9, k_pow : float = 1/4, convergence_thresho
             #
             # Break loop if converged
             if median_convergence[-1] < convergence_threshold:
-                print(f"GOOD: Converged at {i}th with maximum absolute error of {median_convergence[-1]}.") 
+                print(f"CONVERGED at {i}th with maximum absolute error of {median_convergence[-1]}.") 
                 break
             #
             if i == max_it-1:
-                print(f"BAD: Didn't converge after {i}th with maximum absolute error of {median_convergence[-1]}.") 
+                print(f"PREMATURE: Didn't converge after {i}th with maximum absolute error of {median_convergence[-1]}.") 
                 break
             #
             del A_new
@@ -55,11 +55,11 @@ def n_sqrt(a : array, max_it : int=20, convergence_threshold=None):
             #
             # Breaking loop if converged
             if median_convergence[-1] < convergence_threshold:
-                print(f"GOOD: Converged at {i}th with maximum absolute error of {median_convergence[-1]}.") 
+                print(f"CONVERGED at {i}th with maximum absolute error of {median_convergence[-1]}.") 
                 break
             #
             if i == max_it-1:
-                print(f"BAD: Didn't converge after {i}th with maximum absolute error of {median_convergence[-1]}.") 
+                print(f"PREMATURE: Didn't converge after {i}th with maximum absolute error of {median_convergence[-1]}.") 
                 break
             #
             del K_new
