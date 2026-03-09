@@ -50,7 +50,7 @@ from .linalg import block, ns_sqrt
 
 #==============================================
 
-def sbd_eigenvalue(a, sqrt= ns_sqrt):
+def peigval(a, sqrt= ns_sqrt):
     ''' Matrix-polynomial root via Sridhara-based Block Diagonalization method.
     PARAMETERS
         a            : matrix to take block-Bhaskara of. Accepts np.array or scipy sparse array.
@@ -105,7 +105,7 @@ def sbd_vector(v, normalize=False):
         return None
     #
     M   = v.dot(v.T.conjugate())
-    L1  = sbd_eigenvalue(M)[1]
+    L1  = peigval(M)[1]
     L1  = coo_array( L1 )        
     #
     e, v = eigs( L1, k=1, sigma=1 )
@@ -156,7 +156,7 @@ def sbd_eigenbranch(M, block_index='0', only_even=False ):
         L = [M, ]
         t = [0, ]
         for i in range( len(block_index) ):
-            L.append( sbd_eigenvalue(L[-1])[ int(block_index[i]) ] )    # Block-eigensolving
+            L.append( peigval(L[-1])[ int(block_index[i]) ] )    # Block-eigensolving
             t.append( (perf_counter()-t0)/60. )
         #
         if only_even == True:
@@ -181,7 +181,7 @@ def sbd_eigenleaf(M, block_index='0'):
         L = [M, ]
         t = [0, ]
         for i in range( len(block_index) ):
-            L.append( sbd_eigenvalue(L[-1])[ int(block_index[i]) ] )    # Block-eigensolving
+            L.append( peigval(L[-1])[ int(block_index[i]) ] )    # Block-eigensolving
             t.append( (perf_counter()-t0)/60. )
             del L[0]
         #
@@ -192,6 +192,7 @@ def sbd_eigenleaf(M, block_index='0'):
     report = {'time':t}    # Time is in minutes
 
     return L[0], report
+
 
 
 
