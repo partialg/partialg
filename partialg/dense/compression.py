@@ -39,8 +39,8 @@ from warnings import warn               # Used for warnings
 
 from numpy.linalg import inv
 from numpy.linalg import eig as np_eig
-from numpy import eye, sqrt, array, log2
-from numpy import abs as np_abs
+from numpy import eye, array, log2
+from numpy import (sqrt as np_sqrt, abs as np_abs)
 
 from scipy.sparse import coo_array
 from scipy.sparse.linalg import eigs
@@ -73,10 +73,10 @@ def peigval(a, sqrt= ns_sqrt):
         d  = A.dot(D) - C.dot(B)
     #
     term = sqrt( t.dot(t) - 4*d )
-    L0   = 0.5*(t - term)
-    L1   = 0.5*(t + term)
+    L0   = 0.5*(t - term[0])
+    L1   = 0.5*(t + term[0])
     #
-    return (L0, L1)
+    return {0:L0, 1:L1, 'report': term[1]}
 
 
 def sbd_vector(v, normalize=False):
@@ -110,7 +110,7 @@ def sbd_vector(v, normalize=False):
     e, v = eigs( L1, k=1, sigma=1 )
     #
     if normalize == True:
-        v = v/np_abs( sqrt( v.T.conjugate().dot( v ) ) )
+        v = v/np_abs( np_sqrt( v.T.conjugate().dot( v ) ) )
     #
     return e, array( v )
 
@@ -191,6 +191,7 @@ def sbd_eigenleaf(M, block_index='0'):
     report = {'time':t}    # Time is in minutes
 
     return L[0], report
+
 
 
 
