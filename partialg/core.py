@@ -88,6 +88,36 @@ def peigval(a, **kwargs):
 
 
 #
+def help():
+    "Prints example code"
+    print('''# NOTATION
+# All function names are lowercase and singular.
+# The suffixes -, -y, -s are for functions for dense, symbolic and sparse arrays, respectively.
+# The prefix p- preceeds a standard name for partialized functions (inv -> pinv, eigval -> peigval).
+
+# Proxies for dense, symbolic and sparse data types
+from partialg import pinv    
+from partialg import inv
+from partialg import peigval
+
+# Dense submodules
+from partialg.inversion import pinv
+from partialg.compression import peigval
+from partialg.zpu_quantum import h, x, y, z, i.
+
+# Other submodules
+from partialg.sparse.compression import peigvals
+from partialg.symbolic.compression import peigvaly
+
+# Simple usage examples with a Hermitian matrix
+import numpy as np
+a       = np.random.rand(4,4) + 1j*np.random.rand(4,4)
+a       = 0.5*( a + a.T.conjugate() )
+
+a_00_01 = pinv(a, (0,0), (0,1) )
+a_      = pinv(a, range(a.shape[0) ) )
+b       = peigval(a)''')
+
 
 
 
