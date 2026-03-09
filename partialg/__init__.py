@@ -1,5 +1,6 @@
-from .core import pinv, inv, peigval
+from .core import pinv, inv, peigval, help
 
-__all__ = ["pinv", "inv", "peigval"]
+__all__ = ["pinv", "inv", "peigval", "help"]
+
 
 
