@@ -113,3 +113,57 @@ def fl_norm(a):
     s5 = np_sum( squared_norm(commutator(C,D)) )
     #
     return np_sqrt( (1/6)*(s0 + s1 + s2 + s3 + s4 + s5) )
+
+
+
+def as_matrix(d):
+    '''
+    Converts dictionary of Pauli strings into sparse matrix.
+    Requires
+    '''
+    X = sp.sparse.csc_array([[0,1],[1,0]])
+    Y = sp.sparse.csc_array([[0,-1j],[1j,0]])
+    Z = sp.sparse.csc_array([[1,0],[0,-1]])
+    I = sp.sparse.eye( 2 )
+    O = {'I':I, 'X':X, 'Y':Y, 'Z':Z}
+    #
+    for i in d:
+        nqb = len(i)
+        break
+    #
+    P = csr_matrix( (int(2**nqb), int(2**nqb) ) )
+    for item in d:
+        P = P + d[item] * reduce(sp.sparse.kron, [ O[ item[i] ] for i in range(nqb) ] )
+        print(P)
+    return P
+
+
+def as_pauli_string(a, tol=0.00001, is_hermitian=False):
+    '''
+    Converts dense or sparse matrix into dictionary of Pauli strings.
+    Requires itertools, functools, numpy 
+    '''
+    d   = dict()
+    nqb = int( np.log2( a.shape[0]))
+    #
+    X = np.array([[0,1],[1,0]])
+    Y = np.array([[0,-1j],[1j,0]])
+    Z = np.array([[1,0],[0,-1]])
+    I = np.eye( 2 )
+    #
+    if is_hermitian == True:
+        set_domain = np.real
+    else:
+        set_domain = complex
+    #
+    O = {'I':I, 'X':X, 'Y':Y, 'Z':Z}
+    #
+    for p in product('I X Y Z'.split(' '), repeat= nqb ):
+        #
+        P = reduce(np.kron, [ O[p[i]] for i in range(nqb) ] )
+        #
+        coeff = 2**-nqb *set_domain( ( P.dot(a) ).trace() )
+        gate = ''.join(p)
+        if np.abs(coeff) > tol:
+            d.update({gate: coeff})
+    return d
