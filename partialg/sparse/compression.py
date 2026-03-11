@@ -71,14 +71,14 @@ def blocks(a : csc_array, nrow : int =2):
 def peigvals(a : csc_array, sqrt = ns_sqrts):
     ''' Matrix-polynomial root via Sridhara-based Block Diagonalization method.
     PARAMETERS
-        a            : matrix to take block-Bhaskara of. Accepts np.array or scipy sparse array.
+        a             : matrix to take block-Bhaskara of. Accepts np.array or scipy sparse array.
         srt <np.array>: function to compute matrix square root
     '''
     blk       = blocks(a, nrow=2)
     A, B      = blk[0][0], blk[0][1]
     C, D      = blk[1][0], blk[1][1]
     #
-    t = A + D        # Block-trace    
+    t = A + D        # Block-trace
     #
     try:             # Block-determinant with inverse of A
         A_ = inv(A)
@@ -94,7 +94,7 @@ def peigvals(a : csc_array, sqrt = ns_sqrts):
     return (L0, L1)
 
 
-def sbd_vectors(v, normalize=False):
+def vector_peigvals(v, normalize=False):
     ''' Sridhara-based Block Diagonalization compressor for vectors
     INPUTS
         v <array-like>  : numpy dense 2D array or scipy sparse 2D array with shape (n,1) for any integer n>0.
@@ -128,7 +128,7 @@ def sbd_vectors(v, normalize=False):
     return e, csc_array(v)
 
 
-def sbd_vectorbranchs(v, block_index='0', only_even=False, normalize=False ):
+def vector_eigenbranchs(v, block_index='0', only_even=False, normalize=False ):
     ''' sbd_vectorbranch applies sbd_vectors successively.
     block_index <int>: index of block-diagonal matrix (its length is the number of compressions).
     only_even <bool>: True ensures output only has elements with 2*n compressions, where n is the list index, as required by some VQE algorithms. 
@@ -141,7 +141,7 @@ def sbd_vectorbranchs(v, block_index='0', only_even=False, normalize=False ):
         L = [v, ]
         t = [0, ]
         for i in range( len(block_index) ):
-            L.append( sbd_vectors(L[-1], normalize=normalize)[ 1 ] )    # Block-eigensolving
+            L.append( vector_peigvals(L[-1], normalize=normalize)[ 1 ] )    # Block-eigensolving
             t.append( (perf_counter()-t0)/60. )
         #
         if only_even == True:
@@ -156,7 +156,7 @@ def sbd_vectorbranchs(v, block_index='0', only_even=False, normalize=False ):
 
 
 
-def sbd_eigenbranchs(M, block_index='0', only_even=False ):
+def eigenbranchs(M, block_index='0', only_even=False, sqrt=ns_sqrts ):
     ''' sbd_eigenbranchs finds eigenleaf of block-eigenvalue tree.
     block_index <int>: index of block-diagonal matrix (its length is the number of compressions).
     only_even <bool>: True ensures output only has elements with 2*n compressions, where n is the list index, as required by some VQE algorithms. 
@@ -169,7 +169,7 @@ def sbd_eigenbranchs(M, block_index='0', only_even=False ):
         L = [M, ]
         t = [0, ]
         for i in range( len(block_index) ):
-            L.append( sbd_eigenvalues(L[-1])[ int(block_index[i]) ] )    # Block-eigensolving
+            L.append( peigvals(L[-1], sqrt=sqrt)[ int(block_index[i]) ] )    # Block-eigensolving
             t.append( (perf_counter()-t0)/60. )
         #
         if only_even == True:
@@ -184,7 +184,7 @@ def sbd_eigenbranchs(M, block_index='0', only_even=False ):
 
 
 
-def sbd_eigenleafs(M, block_index='0'):
+def eigenleafs(M, block_index='0', sqrt=ns_sqrts):
     ''' sbd_eigenbranchs finds eigenleaf of block-eigenvalue tree.
     Memory-economic SBD_eigenbranch, returning only the last block.
     '''
@@ -195,7 +195,7 @@ def sbd_eigenleafs(M, block_index='0'):
         L = [M, ]
         t = [0, ]
         for i in range( len(block_index) ):
-            L.append( sbd_eigenvalues(L[-1])[ int(block_index[i]) ] )    # Block-eigensolving
+            L.append( peigvals(L[-1], sqrt=sqrt  )[ int(block_index[i]) ] )    # Block-eigensolving
             t.append( (perf_counter()-t0)/60. )
             del L[0]
         #
@@ -207,8 +207,8 @@ def sbd_eigenleafs(M, block_index='0'):
     return L[0], report
 #
 
-def transformed_eigs(M, T_factor=0, N_factor=1, make_Hermitian=True):
-    ''' Finds ground state after multiplication of M by T_factor and sum by T_factor*eye(M.shape[0])
+def get_transformed_ground_state(M, T_factor=0, N_factor=1, make_Hermitian=True):
+    ''' Finds ground state after multiplication of M by 1/N_factor and sum by T_factor*eye(M.shape[0])
     '''
     #
     t0 = perf_counter()
@@ -226,6 +226,5 @@ def transformed_eigs(M, T_factor=0, N_factor=1, make_Hermitian=True):
     report = {'time':dt}    # Time is in minutes
     return gs, report
 
-#
 
 
