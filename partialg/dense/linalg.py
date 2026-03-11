@@ -4,6 +4,11 @@ from numpy.linalg import inv
 from numpy.linalg import (eig as np_eig, eigh as np_eigh)
 from numpy import diag, eye, array, array_split
 from numpy import (abs as np_abs, max as np_max, sum as np_sum, sqrt as np_sqrt) 
+import numpy as np
+from itertools import product
+from functools import reduce
+import scipy as sp
+from scipy.sparse import csr_matrix
 
 def lu_sqrt(a, is_hermitian=False):
     "Newton-Schulz matrix root expansion."
