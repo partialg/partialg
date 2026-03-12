@@ -35,7 +35,8 @@
 
 from time import perf_counter           # For time measurement 
 from scipy.sparse import eye, csc_array
-from scipy.sparse.linalg import inv, eigs
+from scipy.sparse.linalg import eigs, spsolve
+inv = lambda x: spsolve(x, sp.sparse.eye(x.shape[0]))
 
 from numpy import (sqrt as np_sqrt, abs as npabs)
 from numpy import log2
@@ -223,6 +224,7 @@ def get_transformed_ground_state(M, T_factor=0, N_factor=1, make_Hermitian=True)
     dt = perf_counter() - t0
     report = {'time':dt}    # Time is in minutes
     return gs, report
+
 
 
 
