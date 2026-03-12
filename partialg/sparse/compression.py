@@ -37,9 +37,8 @@ from time import perf_counter           # For time measurement
 from scipy.sparse import eye, csc_array
 from scipy.sparse.linalg import inv, eigs
 
-from numpy import sqrt, log2
-from numpy import abs as npabs
-
+from numpy import (sqrt as np_sqrt, abs as npabs)
+from numpy import log2
 
 def ns_sqrts(a : csc_array, max_it :int = 9, k_pow : float = 1/4):
     "Newton-Schulz matrix root expansion."
@@ -68,7 +67,7 @@ def blocks(a : csc_array, nrow : int =2):
 
 #==============================================
 
-def peigvals(a : csc_array, sqrt = ns_sqrts):
+def peigvals(a : csc_array, sqrt = ns_sqrts, sqrt_max_it:int = 9):
     ''' Matrix-polynomial root via Sridhara-based Block Diagonalization method.
     PARAMETERS
         a             : matrix to take block-Bhaskara of. Accepts np.array or scipy sparse array.
@@ -87,7 +86,7 @@ def peigvals(a : csc_array, sqrt = ns_sqrts):
         raise ('Exception')
         d  = A.dot(D) - C.dot(B)
     #
-    term = sqrt( t.dot(t) - 4*d )
+    term = sqrt( t.dot(t) - 4*d, max_it=sqrt_max_it )
     L0   = 0.5*(t - term)
     L1   = 0.5*(t + term)
     #
@@ -123,7 +122,7 @@ def vector_peigvals(v, normalize=False):
     e, v = eigs( L1, k=1, sigma=1 )
     #
     if normalize == True:
-        v = v/npabs( sqrt( v.T.conjugate().dot( v ) ) )
+        v = v/npabs( np_sqrt( v.T.conjugate().dot( v ) ) )
     #
     return e, csc_array(v)
 
@@ -156,7 +155,7 @@ def vector_eigenbranchs(v, block_index='0', only_even=False, normalize=False ):
 
 
 
-def eigenbranchs(M, block_index='0', only_even=False, sqrt=ns_sqrts ):
+def eigenbranchs(M, block_index='0', only_even=False, sqrt=ns_sqrts, sqrt_max_it=9 ):
     ''' sbd_eigenbranchs finds eigenleaf of block-eigenvalue tree.
     block_index <int>: index of block-diagonal matrix (its length is the number of compressions).
     only_even <bool>: True ensures output only has elements with 2*n compressions, where n is the list index, as required by some VQE algorithms. 
@@ -169,7 +168,7 @@ def eigenbranchs(M, block_index='0', only_even=False, sqrt=ns_sqrts ):
         L = [M, ]
         t = [0, ]
         for i in range( len(block_index) ):
-            L.append( peigvals(L[-1], sqrt=sqrt)[ int(block_index[i]) ] )    # Block-eigensolving
+            L.append( peigvals(L[-1], sqrt=sqrt, sqrt_max_it=sqrt_max_it )[ int(block_index[i]) ] )    # Block-eigensolving
             t.append( (perf_counter()-t0)/60. )
         #
         if only_even == True:
@@ -195,9 +194,8 @@ def eigenleafs(M, block_index='0', sqrt=ns_sqrts):
         L = [M, ]
         t = [0, ]
         for i in range( len(block_index) ):
-            L.append( peigvals(L[-1], sqrt=sqrt  )[ int(block_index[i]) ] )    # Block-eigensolving
+            L.append( peigvals(L.pop(0), sqrt=sqrt  )[ int(block_index[i]) ] )    # Block-eigensolving
             t.append( (perf_counter()-t0)/60. )
-            del L[0]
         #
     else:
         print(f'ABORTED: block_index is {int( len( block_index ) - log2(len(M)) )  } indices too large.')
@@ -205,7 +203,7 @@ def eigenleafs(M, block_index='0', sqrt=ns_sqrts):
         #
     report = {'time':t}    # Time is in minutes
     return L[0], report
-#
+
 
 def get_transformed_ground_state(M, T_factor=0, N_factor=1, make_Hermitian=True):
     ''' Finds ground state after multiplication of M by 1/N_factor and sum by T_factor*eye(M.shape[0])
@@ -216,7 +214,7 @@ def get_transformed_ground_state(M, T_factor=0, N_factor=1, make_Hermitian=True)
     if make_Hermitian == True:
         M2 = M @ M.T.conjugate()
         M2 = M2*N_factor + T_factor*eye(M2.shape[0])
-        gs = sqrt( npabs((min( eigs( M2, sigma=0 )[0] ) -T_factor )/N_factor)  )
+        gs = np_sqrt( npabs((min( eigs( M2, sigma=0 )[0] ) -T_factor )/N_factor)  )
     else:
         M2 = M
         M2 = M2*N_factor + T_factor*eye(M2.shape[0])
@@ -225,6 +223,7 @@ def get_transformed_ground_state(M, T_factor=0, N_factor=1, make_Hermitian=True)
     dt = perf_counter() - t0
     report = {'time':dt}    # Time is in minutes
     return gs, report
+
 
 
 
