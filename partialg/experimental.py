@@ -194,11 +194,11 @@ class dok:
     #
     def bigif(self, d, left, right, *null, **nulls):
         ''' Checks if d at each index of left is equal to d at each index of right.'''
-        out = []
         for l_, l in enumerate(left):
             for r in right[l_]:
-                out.append( d[l] == d[r] )
-        return np.all(out)
+                if (d[l] == d[r]) == False:
+                    return False
+        return True
     #
     def einsum(self, command, *B, **kwargs):
         ''' 
