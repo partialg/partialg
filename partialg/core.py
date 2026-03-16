@@ -58,9 +58,6 @@ def pinv(M, *args, **kwargs):
     elif 'sparse' == method:
         raise Warning('ABORTED. Method not supported. Retuning None.')
         return None
-    else:
-        raise Warning('ABORTED. Method not supported. Returning None.') 
-        return None
 
 def inv(a, **kwargs):
     "Full matrix inversion via partial inversion"
