@@ -36,7 +36,7 @@
 
 from numpy import array
 
-def inv(M, *args):
+def pinv(M, *args):
     ''' Partial inversion algorithm
     M: numpy ndarray of floats or of sympy symbols.
     args: tuple of matrix indices. E.g.: (0,0), (1,2).
