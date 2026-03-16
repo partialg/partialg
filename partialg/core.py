@@ -47,13 +47,13 @@ def pinv(M, *args, **kwargs):
     if 'range' in str(type( args[0] )):
         args = tuple( [(i,i) for i in args[0]] )
     #
-    from .dense.inversion import inv
+    from .dense.inversion import pinv as _pinv
     # Methods
     if method == 'dense':
-        return pinv(M, *args)
+        return _pinv(M, *args)
     elif method == 'symbolic':
         # Yes, it's the same as for 'dense'
-        return ImmutableMatrix( pinv(M, *args) )
+        return ImmutableMatrix( _pinv(M, *args) )
     elif method == 'sparse':
         print('ABORTED. Method not supported. Retuning None.')
         return None
@@ -112,9 +112,10 @@ a       = 0.5*( a + a.T.conjugate() )
 
 a_00_01 = pinv(a, (0,0), (0,1) )
 a_      = pinv(a, range(a.shape[0) ) )
-b       = peigval(a)''')
+b       = peigval(a)
+''')
 
-
-
-
+def help_me_go_vegan():
+    from webbrowser import open_new
+    open_new("https://plantbasedtreaty.org/vegan-pledge/")
 
