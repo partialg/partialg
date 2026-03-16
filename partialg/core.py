@@ -41,7 +41,7 @@ def pinv(M, *args, **kwargs):
             If range is given as only args, generates pairs of equal indices from range.
     # COMMENT: For ndarrays with more than 2 axes, only the first two are considered.
     '''
-    method = kwargs.get('method', 'sparse')
+    method = kwargs.get('method', 'dense')
     #
     # Initialization from range
     if 'range' in str(type( args[0] )):
