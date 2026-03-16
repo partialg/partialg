@@ -47,16 +47,15 @@ def pinv(M, *args, **kwargs):
     if 'range' in str(type( args[0] )):
         args = tuple( [(i,i) for i in args[0]] )
     #
+    from .dense.inversion import inv
     # Methods
-    if 'dense' == method:
-        from .dense.inversion import inv
+    if method == 'dense':
         return pinv(M, *args)
-    elif 'symbolic' == method:
+    elif method == 'symbolic':
         # Yes, it's the same as for 'dense'
-        from .dense.inversion import inv 
         return ImmutableMatrix( pinv(M, *args) )
-    elif 'sparse' == method:
-        raise Warning('ABORTED. Method not supported. Retuning None.')
+    elif method == 'sparse':
+        print('ABORTED. Method not supported. Retuning None.')
         return None
 
 def inv(a, **kwargs):
