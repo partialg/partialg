@@ -24,8 +24,7 @@ setup(
         "scipy>=1.16.1",
         "matplotlib>=3.9.2",
         "sympy>=1.13.3",
-        "tqdm>=4.67.1",
-        "webbrowser>=0.0.1"
+        "tqdm>=4.67.1"
     ],
     python_requires=">=3.9",
     classifiers=[                     # Metadata for PyPI
