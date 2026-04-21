@@ -50,7 +50,7 @@ a       = np.random.rand(4,4) + 1j*np.random.rand(4,4)
 a       = 0.5*( a + a.T.conjugate() )
 
 a_00_01 = pinv(a, (0,0), (0,1) )
-a_      = pinv(a, range(a.shape[0) ) )
+a_      = pinv(a, range(a.shape[0] ) )
 b       = peigval(a)
 ```
 
