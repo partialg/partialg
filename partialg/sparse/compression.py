@@ -84,7 +84,7 @@ def peigvals(a : csc_array, sqrt = ns_sqrts, sqrt_max_it:int = 9):
         A_ = inv(A)
         d  = A.dot(D) - A.dot(C.dot( A_.dot(B) ))
     except:          # Without inverse of A
-        raise ('Exception')
+        print('Using method for singular matrices')
         d  = A.dot(D) - C.dot(B)
     #
     term = sqrt( t.dot(t) - 4*d, max_it=sqrt_max_it )
