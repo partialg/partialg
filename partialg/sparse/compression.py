@@ -36,7 +36,7 @@
 from time import perf_counter           # For time measurement 
 from scipy.sparse import eye, csc_array
 from scipy.sparse.linalg import eigs, spsolve
-inv = lambda x: spsolve(x, sp.sparse.eye(x.shape[0]))
+inv = lambda x: spsolve(x, eye(x.shape[0]))
 
 from numpy import (sqrt as np_sqrt, abs as npabs)
 from numpy import log2
