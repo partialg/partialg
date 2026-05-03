@@ -68,7 +68,7 @@ def blocks(a : csc_array, nrow : int =2):
 
 #==============================================
 
-def peigvals(a : csc_array, sqrt = ns_sqrts, sqrt_max_it:int = 9):
+def peigvals(a : csc_array, sqrt = ns_sqrts, sqrt_max_it:int = 9, **kwargs):
     ''' Matrix-polynomial root via Sridhara-based Block Diagonalization method.
     PARAMETERS
         a             : matrix to take block-Bhaskara of. Accepts np.array or scipy sparse array.
@@ -91,8 +91,10 @@ def peigvals(a : csc_array, sqrt = ns_sqrts, sqrt_max_it:int = 9):
     L0   = 0.5*(t - term)
     L1   = 0.5*(t + term)
     #
-    return (L0, L1)
-
+    if 'dmode' not in kwargs:
+        return (L0, L1)
+    else: # Debugging mode
+        return t.dot(t) - 4*d
 
 def vector_peigvals(v, normalize=False):
     ''' Sridhara-based Block Diagonalization compressor for vectors
