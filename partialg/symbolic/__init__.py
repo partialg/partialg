@@ -1,1 +1,1 @@
-from . import compression, math
+from . import compression, math, linalg
