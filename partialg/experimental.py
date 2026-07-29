@@ -4,7 +4,10 @@ from tqdm import tqdm
 
 class dok:
     ''' 
-    Dictionary Of Keys TensOR.
+    Dictionary Of Keys tensor.
+    Accepts np.array as imput.
+    !! Shape must be given at initialization.
+    E.g.: dok([[1,0],[0,1]], shape=(2,2) )
     '''
     def __init__(self, *a, shape=tuple() , tolerance= 10**-9):
         #
@@ -96,7 +99,11 @@ class dok:
                 anew[i] = self.d[i] * scalar
             return dok(anew, shape=self.shape)
         return NotImplemented
-
+    
+    def set_shape(t):
+        "Resets shape tuple (does not reshape dok object)."
+        self.shape = t
+    
     def get_memory(self):
         '''Returns estimated memory used by self, in MB'''
         from sys import getsizeof
